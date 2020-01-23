@@ -32,7 +32,8 @@ FitMod(formula, data, ..., subset, na.action = na.pass, fitfn = NULL)
 %%     ~~Describe \code{fitfn} here~~
 }
 }
-\details{Needed to make it easy to use
+\details{Needed to make it easy to use or so
+
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{the model
