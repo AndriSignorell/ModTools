@@ -1,0 +1,90 @@
+\name{Tobit}
+\alias{Tobit}
+\alias{print.Tobit}
+\alias{summary.Tobit}
+\alias{print.summary.Tobit}
+\alias{formula.Tobit}
+\alias{model.frame.Tobit}
+\alias{update.Tobit}
+\alias{waldtest.Tobit}
+\alias{lrtest.Tobit}
+\alias{linearHypothesis.Tobit}
+\alias{deviance.survreg}
+\alias{fitted.survreg}
+\alias{nobs.survreg}
+\alias{weights.survreg}
+
+\title{Tobit Regression}
+
+\description{
+Fitting and testing Tobit regression models for censored data.
+}
+
+\usage{
+Tobit(formula, left = 0, right = Inf, dist = "gaussian",
+      subset = NULL, data = list(), \dots)
+}
+
+\arguments{
+  \item{formula}{a symbolic description of a regression model of type
+    \code{y ~ x1 + x2 + \dots}.}
+  \item{left}{left limit for the censored dependent variable \code{y}.
+    If set to \code{-Inf}, \code{y} is assumed not to be left-censored.}
+  \item{right}{right limit for the censored dependent variable \code{y}.
+    If set to \code{Inf}, the default, \code{y} is assumed not to be right-censored.}
+  \item{dist}{assumed distribution for the dependent variable \code{y}.
+    This is passed to \code{\link[survival]{survreg}}, see the respective man page for
+    more details.}
+  \item{subset}{a specification of the rows to be used.}
+  \item{data}{a data frame containing the variables in the model.}
+  \item{\dots}{further arguments passed to \code{\link[survival]{survreg}}.}
+}
+
+\details{
+  The function \code{Tobit} is a convenience interface to \code{\link[survival]{survreg}}
+  (for survival regression, including censored regression) setting different
+  defaults and providing a more convenient interface for specification
+  of the censoring information.
+
+  The default is the classical Tobit model (Tobin 1958, Greene 2003) assuming
+  a normal distribution for the dependent variable with left-censoring at 0.
+
+  Technically, the formula of type \code{y ~ x1 + x2 + \dots} passed to \code{Tobit}
+  is simply transformed into a formula suitable for \code{\link[survival]{survreg}}: This means
+  the dependent variable is first censored and then wrapped into a \code{\link[survival]{Surv}}
+  object containing the censoring information which is subsequently passed to
+  \code{\link[survival]{survreg}}, e.g., \code{Surv(ifelse(y <= 0, 0, y), y > 0, type = "left") ~ x1 + x2 + \dots}
+  for the default settings.
+}
+\author{Achim Zeileis <andri@signorell.net>
+%%  ~~who you are~~
+}
+
+
+\references{
+Greene, W.H. (2003). \emph{Econometric Analysis}, 5th edition. Upper Saddle River, NJ: Prentice Hall.
+
+Tobin, J. (1958). Estimation of Relationships for Limited Dependent Variables.
+  \emph{Econometrica}, \bold{26}, 24--36.
+}
+
+\value{
+  An object of class \code{"Tobit"} inheriting from class \code{"survreg"}.
+}
+
+\examples{
+\dontrun{
+data("Affairs", package="AER")
+
+## from Table 22.4 in Greene (2003)
+fm.Tobit <- Tobit(affairs ~ age + yearsmarried + religiousness + occupation + rating,
+  data = Affairs)
+fm.Tobit2 <- Tobit(affairs ~ age + yearsmarried + religiousness + occupation + rating,
+  right = 4, data = Affairs)
+
+summary(fm.Tobit)
+summary(fm.Tobit2)
+}
+}
+
+\keyword{regression}

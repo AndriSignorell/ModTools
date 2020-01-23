@@ -1,0 +1,13 @@
+Package: ModTools
+Type: Package
+Title: Tools for Building Regression and Classification Models
+Version: 0.6
+Date: 2019-06-18
+Author: Andri Signorell
+Maintainer: Andri Signorell <andri@signorell.net>
+Description: Collection of tools for regression and classification tasks.
+Depends: DescTools, MASS, nnet, survival, R (>= 3.5.0)
+License: GPL (>= 2)
+Imports: e1071, C50, rpart, randomForest, pROC, pscl, methods, relaimpo, rpart.plot, lattice, lmtest, car, robustbase, class, NeuralNetTools
+LazyLoad: yes
+LazyData: yes
