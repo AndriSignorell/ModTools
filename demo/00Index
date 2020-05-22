@@ -1,0 +1,4 @@
+num_mod		demonstrates ModTools using numeric models
+bin_mod		demonstrates ModTools using binomial models
+mult_mod	demonstrates ModTools using multinomial models
+

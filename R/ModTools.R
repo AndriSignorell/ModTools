@@ -509,6 +509,16 @@ ROC <- function (x, resp = NULL, ...) {
 }
 
 
+BestCut <- function(x, method=c("youden", "closest.topleft")){
+  pROC::coords(roc=x, x="best", best.method=c("youden", "closest.topleft"),
+               transpose=TRUE)
+}
+
+
+confint.ROC <- function(object, parm, level = 0.95, ...) {
+  pROC::ci.coords(roc=object, conf.level = level, ...)
+}
+
 
 
 FitMod <- function(formula, data, ..., subset, na.action=na.pass, fitfn=NULL){
@@ -829,14 +839,19 @@ Response <- function(x, ...){
 
   if(inherits(x, "C5.0")){
     x$terms <- eval(x$call$formula)
-    model.response(model.frame(x))
+    res <- model.response(model.frame(x))
 
   } else if(inherits(x, "rpart") & is.null(x$model)){
-    factor(attr(x, "ylevels")[x$y])
+    res <- factor(attr(x, "ylevels")[x$y])
 
   } else {
-    model.response(model.frame(x))
+    res <- model.response(model.frame(x))
   }
+
+  # get name of response
+  attr(res, "response") <- attr(attr(x$terms,"dataClasses"),"names")[attr(x$terms,"response")]
+
+  return(res)
 
 }
 
@@ -1246,5 +1261,44 @@ LowVar <- function(x, na.rm=FALSE, uvalp = 0.2, freq = 20, method=c("both", "uni
   return(res)
 
 }
+
+
+
+RefLevel <- function(x){
+
+  refCat <- function(model, var) {
+    cs <- attr(model.matrix(model), "contrasts")[[var]]
+    if (is.character(cs)) {
+      if (cs == "contr.treatment")
+        ref <- 1
+      else stop("No treatment contrast")
+    }
+    else {
+      zeroes <- !cs
+      ones <- cs == 1
+      stopifnot(all(zeroes | ones))
+      cos <- colSums(ones)
+      stopifnot(all(cos == 1))
+      ros <- rowSums(ones)
+      stopifnot(sum(!ros) == 1 && sum(ros) != ncol(cs))
+      ref <- which(!ros)
+    }
+    return(levels(model$model[[var]])[ref])
+  }
+
+  # find factor predvals
+  fpred <- names(grep("factor", attr(x[["terms"]], "dataClasses"), value=TRUE))
+  resp <- all.vars(formula(x))[1]
+  fpred <- fpred[fpred != resp]
+
+  list( complicated=
+  sapply(fpred , function(z) refCat(x, z))
+
+  # or simply?
+  , simple=sapply(x$xlevels, "[", 1))
+
+
+}
+
 
 

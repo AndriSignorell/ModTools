@@ -37,35 +37,4 @@ An example: 54\% of the respondents state that they recommend a company or brand
 \source{own data
 %%  ~~ reference to a publication or URL from which the data were obtained ~~
 }
-\examples{
-r.rlm <- FitMod(rcat_x ~ N(image_x) + N(custsat_x) + N(lowprem_x) + age_n +
-                 sex_c + hins_x, d.nps, fitfn = "rlm")
-
-r.lm <- FitMod(resp_n ~ N(image_x) + N(custsat_x) + N(lowprem_x) + age_n +
-                   sex_c + hins_x, d.nps, fitfn = "lm")
-
-r.pois <- FitMod(resp_n ~ N(image_x) + N(custsat_x) + N(lowprem_x) + age_n +
-                   sex_c + hins_x, d.nps, fitfn = "poisson")
-
-d.nps_cc <- na.omit(d.nps[, c("rcat_x","age_n","sex_c","hins_x",
-                              "image_x","custsat_x","lowprem_x")])
-
-r.mult <- FitMod(rcat_x ~ N(image_x) + N(custsat_x) + N(lowprem_x) + age_n +
-                   sex_c , data=d.nps, fitfn = "multinom")
-
-
-r.polr <- FitMod(rcat_x ~ N(image_x) + N(custsat_x) + N(lowprem_x) + age_n +
-                   sex_c , data=d.nps, fitfn = "polr")
-
-
-r.rf <- FitMod(rcat_x ~ (image_x) + (custsat_x) + (lowprem_x) + age_n +
-                   sex_c , data=d.nps, fitfn = "randomForest")
-
-TModC(r.polr, r.mult)
-
-Conf(cut(predict(r.lm), breaks=c(-Inf, 7,9, Inf),
-       labels=c("unlikely", "undecided","likely")),
-     cut(model.frame(r.lm)$resp_n, breaks=c(-Inf, 7,9, Inf),
-       labels=c("unlikely", "undecided","likely")))
-}
 \keyword{datasets}

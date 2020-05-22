@@ -385,7 +385,7 @@ print.LeafRates <- function(x, ...){
 
 
 
-plot.LeafRates <- function(x, col=c(hblue, hred), type=c("rel","abs"),
+plot.LeafRates <- function(x, col=c(DescTools::hblue, DescTools::hred), type=c("rel","abs"),
                            layout=NULL, ylim=NULL, ...){
 
 
@@ -494,7 +494,7 @@ Purity <- function(x, leaves=TRUE) {
 
 
 
-plot.Purity <- function(x, col=c(hblue, hred), type=c("abs","rel"),
+plot.Purity <- function(x, col=c(DescTools::hblue, DescTools::hred), type=c("abs","rel"),
                         layout=NULL, ylim=NULL, ...){
 
   # myStripStyle <- function(which.panel, factor.levels, ...) {
@@ -514,8 +514,9 @@ plot.Purity <- function(x, col=c(hblue, hred), type=c("abs","rel"),
     layout <- c(nrow(x$freq), 1)
 
 
-  d.nodes <- reshape(x$freq, idvar="node", varying=c("neg","pos"), v.names="n", timevar="ind",
-          direction="long")
+  d.nodes <- reshape(x$freq, idvar="node", varying=colnames(x$freq)[-1],
+                     v.names="n", timevar="ind",
+                     direction="long")
 
   if(is.null(ylim))
     ylim <- c(0, max(pretty(d.nodes$n*1.1)))
@@ -532,7 +533,8 @@ plot.Purity <- function(x, col=c(hblue, hred), type=c("abs","rel"),
               panel.barchart(x, y,..., col=cols, origin=0, box.width=0.85)
             },
 
-            strip=.myStripStyle
+            strip= getOption("latstrip", .myStripStyle)
+
   )
 
 }
