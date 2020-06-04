@@ -417,7 +417,8 @@ plot.LeafRates <- function(x, col=c(DescTools::hblue, DescTools::hred), type=c("
 
   d.leaves <- data.frame(frq=c(x$freq[,1], x$freq[,2]),
                            leaf=rep(row.names(x$freq), times=2),
-                           class=rep(colnames(x$freq), each=nrow(x$freq)), stringsAsFactors = FALSE)
+                           # class=rep(colnames(x$freq), each=nrow(x$freq)), stringsAsFactors = FALSE)
+                         class=factor(rep(c("T","F"), each=nrow(x$freq)), levels=c("T","F")), stringsAsFactors = FALSE)
 
   idx <- d.leaves$leaf[1:nrow(x$freq)]
 
@@ -452,7 +453,7 @@ plot.LeafRates <- function(x, col=c(DescTools::hblue, DescTools::hred), type=c("
              border = 1)
   panel.text(x = 0.5, y = 0.25,
              font=2,
-             lab = gettextf("node %s", factor.levels[which.panel]),
+             lab = gettextf("%s", factor.levels[which.panel]),
              col = "black")
 }
 
@@ -545,7 +546,35 @@ plot.Purity <- function(x, col=c(DescTools::hblue, DescTools::hred), type=c("abs
 
 # plot.rpart ------------------
 # we override the native rpart plot
-plot.rpart <- rpart.plot
+plot.rpart <- function (x = stop("no 'x' arg"), type = 2, extra = "auto",
+                        under = FALSE, fallen.leaves = TRUE, digits = 2, varlen = 0,
+                        faclen = 0, roundint = TRUE, cex = NULL, tweak = 1, clip.facs = FALSE,
+                        clip.right.labs = TRUE, snip = FALSE, box.palette = "auto",
+                        shadow.col = 0, node.labels=TRUE, ...) {
+
+  if(identical(box.palette, "auto"))
+    box.palette <- as.list(ColToOpaque(SetAlpha(Pal("Helsana"))))
+
+  b <- rpart.plot(x =x, type = type, extra = extra,
+                  under = under, fallen.leaves = fallen.leaves, digits = digits, varlen = varlen,
+                  faclen = faclen, roundint = roundint, cex = cex, tweak = tweak,
+                  clip.facs = clip.facs,
+                  clip.right.labs = clip.right.labs, snip = snip, box.palette =  box.palette ,
+                  shadow.col = shadow.col, ...)
+
+  if(node.labels){
+    par(xpd=TRUE)
+    BoxedText(x = b$boxes$x1, y=b$boxes$y2, labels = rownames(x$frame),
+              border=NA, txt.col = "steelblue", font=2, col=SetAlpha("white", 0.7), cex=0.8)
+  }
+
+  invisible(b)
+
+}
+
+
+
+
 
 
 # Complexity parameter
@@ -760,23 +789,22 @@ PlotTree <- function(x, type=c("vert", "horiz", "min"), cols=NULL, shade=NULL,
 
 
 
-Node <- function(x, node, digits = getOption("digits")){
 
-  node <- as.character(node)
+Node <- function (x, node=NULL, type=c("all", "split", "leaf"), digits=3) {
 
-  cp  <-  0
+  if (!inherits(x, "rpart"))
+    stop("Not a legitimate \"rpart\" object")
 
   ff <- x$frame
   ylevel <- attr(x, "ylevels")
   id <- as.integer(row.names(ff))
+
   parent.id <- ifelse(id == 1L, 1L, id%/%2L)
-  parent.cp <- ff$complexity[match(parent.id, id)]
-  rows <- seq_along(id)[parent.cp > cp]
-  rows <- if (length(rows))
-    rows[order(id[rows])]
-  else 1L
+
+  rows <- seq_along(id)
   is.leaf <- ff$var == "<leaf>"
   index <- cumsum(c(1L, ff$ncompete + ff$nsurrogate + !is.leaf))
+
   if (!all(is.leaf)) {
     sname <- rownames(x$splits)
     cuts <- character(nrow(x$splits))
@@ -786,74 +814,164 @@ Node <- function(x, node, digits = getOption("digits")){
         paste("<", format(signif(x$splits[i, 4L], digits)))
       else if (temp[i] == 1L)
         paste("<", format(signif(x$splits[i, 4L], digits)))
-      else paste("splits as ", paste(c("L", "-", "R")[x$csplit[x$splits[i,
-                                                                        4L], 1:temp[i]]], collapse = "", sep = ""), collapse = "")
+      else paste("splits as ", paste(c("L", "-", "R")[x$csplit[x$splits[i, 4L], 1:temp[i]]],
+                                     collapse = "", sep = ""), collapse = "")
     }
     if (any(temp < 2L))
       cuts[temp < 2L] <- format(cuts[temp < 2L], justify = "left")
-    cuts <- paste0(cuts, ifelse(temp >= 2L, ",", ifelse(temp ==
-                                                          1L, " to the right,", " to the left, ")))
+
+    cuts <- paste0(cuts, ifelse(temp >= 2L, ",", ifelse(temp == 1L, " to the right,", " to the left, ")))
   }
+
   tmp <- if (is.null(ff$yval2))
     ff$yval[rows]
-  else ff$yval2[rows, , drop = FALSE]
-  tprint <- x$functions$summary(tmp, ff$dev[rows], ff$wt[rows],
-                                ylevel, digits)
-#  for (ii in seq_along(rows)) {
-  for (ii in which(row.names(ff)[rows] %in% node)) {
+  else
+    ff$yval2[rows, , drop = FALSE]
+  tmp <- unname(tmp)
+
+  tprint <- x$functions$summary(tmp, ff$dev[rows], ff$wt[rows], ylevel, digits)
+  nclass <- (ncol(tmp) - 2L)/2L
+
+  nlst <- list()
+
+  if(is.null(node))
+    nid <- seq_along(rows)
+  else
+    nid <- seq_along(rows)[which(!is.na(rows[match(row.names(ff), node)]))]
+
+  for (ii in nid) {
+
     i <- rows[ii]
+    nlbl <- as.character(id[i])
+
+    nlst[[nlbl]] <- SetNames(list(), names=nlbl)
     nn <- ff$n[i]
-    cat("\nNode number ", id[i], ": ", nn, " observations",
-        sep = "")
-    if (ff$complexity[i] < cp || is.leaf[i])
-      cat("\n")
-    else cat(",    complexity param=", format(signif(ff$complexity[i],
-                                                     digits)), "\n", sep = "")
-    cat(tprint[ii], "\n")
-    if (ff$complexity[i] > cp && !is.leaf[i]) {
+    nlst[[nlbl]]$id <- id[i]
+    nlst[[nlbl]]$vname <- as.character(ff$var[i])
+    nlst[[nlbl]]$isleaf <- is.leaf[i]
+    nlst[[nlbl]]$nobs <- nn
+
+    nlst[[nlbl]]$group <- ylevel[tmp[i, 1L]]
+    nlst[[nlbl]]$ycount <- tmp[i, 1L + (1L:nclass)]
+    nlst[[nlbl]]$yprob <- tmp[i, 1L + nclass + 1L:nclass]
+    nlst[[nlbl]]$nodeprob <- tmp[i, 2L * nclass + 2L]
+
+    nlst[[nlbl]]$complexity <- ff$complexity[i]
+
+    nlst[[nlbl]]$tprint <- tprint[ii]
+
+    if (!is.leaf[i]) {
       sons <- 2L * id[i] + c(0L, 1L)
-      sons.n <- ff$n[match(sons, id)]
-      cat("  left son=", sons[1L], " (", sons.n[1L], " obs)",
-          " right son=", sons[2L], " (", sons.n[2L], " obs)",
-          sep = "")
-      j <- nn - (sons.n[1L] + sons.n[2L])
-      if (j > 1L)
-        cat(", ", j, " observations remain\n", sep = "")
-      else if (j == 1L)
-        cat(", 1 observation remains\n")
-      else cat("\n")
-      cat("  Primary splits:\n")
+      sons_n <- ff$n[match(sons, id)]
+
+      nlst[[nlbl]]$sons <- SetNames(sons, names=c("left", "right"))
+      nlst[[nlbl]]$sons_n <- SetNames(sons_n, names=c("left", "right"))
+
+
+      ## what's that??
+      # j <- nn - (sons.n[1L] + sons.n[2L])
+      # if (j > 1L)
+      #   cat(", ", j, " observations remain\n",
+      #       sep = "")
+      # else if (j == 1L)
+      #   cat(", 1 observation remains\n")
+      # else cat("\n")
+
+
+      # primary splits
       j <- seq(index[i], length.out = 1L + ff$ncompete[i])
       temp <- if (all(nchar(cuts[j], "w") < 25L))
         format(cuts[j], justify = "left")
-      else cuts[j]
-      cat(paste("      ", format(sname[j], justify = "left"),
-                " ", temp, " improve=", format(signif(x$splits[j,
-                                                               3L], digits)), ", (", nn - x$splits[j, 1L],
-                " missing)", sep = ""), sep = "\n")
+      else
+        cuts[j]
+
+      nlst[[nlbl]]$primarysplits <- data.frame(split=sname[j], direction=temp, improve=x$splits[j, 3L], missing= nn - x$splits[j, 1L])
+
+      # surrogate splits
       if (ff$nsurrogate[i] > 0L) {
-        cat("  Surrogate splits:\n")
         j <- seq(1L + index[i] + ff$ncompete[i], length.out = ff$nsurrogate[i])
         agree <- x$splits[j, 3L]
         temp <- if (all(nchar(cuts[j], "w") < 25L))
           format(cuts[j], justify = "left")
         else cuts[j]
         adj <- x$splits[j, 5L]
-        cat(paste("      ", format(sname[j], justify = "left"),
-                  " ", temp, " agree=", format(round(agree, 3L)),
-                  ", adj=", format(round(adj, 3L)), ", (", x$splits[j,
-                                                                    1L], " split)", sep = ""), sep = "\n")
+
+        nlst[[nlbl]]$surrogatesplits <- data.frame(split=sname[j], direction=temp,
+                                                   agree=agree, adj=adj, split=x$splits[j, 1L])
+
       }
     }
   }
 
+  type <- match.arg(type)
+  if(type=="leaf")
+    nlst <- nlst[sapply(nlst, "[[", "isleaf")]
 
-  cat("\n")
-  invisible(x)
+  if(type=="split")
+    nlst <- nlst[!sapply(nlst, "[[", "isleaf")]
+
+
+  return(structure(nlst, class="node"))
+
 }
 
 
-###
+print.node <- function(x, digits=3, ...){
+
+  if(length(x)==0)
+    cat("list()\n")
+
+  else {
+
+    for(i in seq_along(x)) {
+      cat("\nNode number ", x[[i]]$id, ": ", x[[i]]$nobs, " observations", sep = "")
+
+      if (x[[i]]$isleaf)
+        cat("\n")
+      else
+        cat(",    complexity param=", format(signif(x[[i]]$complexity, digits)), "\n", sep = "")
+
+      cat(x[[i]]$tprint, "\n")
+
+      if(!x[[i]]$isleaf){
+        cat("  left son=", x[[i]]$sons[1L], " (", x[[i]]$sons_n[1L],
+            " obs)", " right son=", x[[i]]$sons[2L],
+            " (", x[[i]]$sons_n[2L], " obs)", sep = "")
+
+
+        cat("\n  Primary splits:\n")
+
+        for(lx in split(x[[i]][["primarysplits"]],
+                        f = 1:nrow(x[[i]][["primarysplits"]]))) {
+
+          cat(paste("      ", format(lx$split, justify = "left"),
+                    " ", lx$direction, " improve=", format(signif(lx$improve, digits)),
+                    ", (",
+                    lx$missing, " missing)", sep = ""), sep = "\n")
+
+        }
+
+        if(!is.null(x[[i]]$surrogatesplits)){
+          cat("  Surrogate splits:\n")
+          for(lx in split(x[[i]][["surrogatesplits"]],
+                          f = 1:nrow(x[[i]][["surrogatesplits"]]))) {
+
+            cat(paste("      ", format(lx$split, justify = "left"),
+                      " ", lx$direction, " agree=", format(round(lx$agree, 3L)),
+                      ", adj=", format(round(lx$adj, 3L)),
+                      ", (", lx$split.1, " split)",
+                      sep = ""), sep = "\n")
+
+          }
+        }
+      }
+
+      cat("\n")
+
+    }
+
+  }
+}
 
 
 

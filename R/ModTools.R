@@ -221,7 +221,25 @@ SplitTrainTest <- function(x, p=0.1, seed=NULL, logical=FALSE){
   colnames(res) <- c("coef","lci","uci", "or", "or.lci", "or.uci", "p.val", "")
 
   res[, 1:6] <- Format(res[, 1:6], digits=digits)
-  print(res, print.gap = 3)
+  res <- as.matrix(res)
+
+  # insert reference levels for factors
+  rr <- RefLevel(x)$simple
+  i <- 2
+  for(i in seq_along(rr)){
+    ff <- names(rr[i])
+    rl <- rr[i]
+    j <- head(grep(ff, rownames(res)), 1)
+    res <- Append(res, "-", after=j-1, rows=TRUE)
+    rownames(res)[grep(ff, rownames(res))] <-
+      gsub(ff, "  ", rownames(res)[grep(ff, rownames(res))])
+    rownames(res)[j] <- gettextf("%s (Ref: %s)", ff, rl)
+    res[j, 8] <- Format(xdrop[grep(ff, rownames(xdrop)), 4], fmt="*")
+
+  }
+  res <- as.data.frame(res)
+  colnames(res)[8] <- ""
+  print(res, print.gap = 2)
 
   cat("\nIntercepts:\n")
   print(x$zeta)
@@ -689,7 +707,8 @@ FitMod <- function(formula, data, ..., subset, na.action=na.pass, fitfn=NULL){
     res[["call"]][[1]] <- as.name(fitfn)
 
     # extend result object with p-values
-    z <- summary(res)$coefficients / summary(res)$standard.errors
+    capture.output(sm <- summary(res))
+    z <- sm$coefficients / sm$standard.errors
 
     # 2-tailed Wald z tests to test significance of coefficients
     res[["pval"]] <- (1 - pnorm(abs(z), 0, 1)) * 2
@@ -808,7 +827,7 @@ print.FitMod <- function(x, ...){
 plot.FitMod <- function(x, y, ...){
 
   if(inherits(x, "rpart")){
-    rpart.plot(x, ...)
+    plot.rpart(x, ...)
 
     # evt. other defaults:
     # plot.rpart <- function (x = stop("no 'x' arg"), type = 0, extra = 0, under = FALSE,
@@ -1019,11 +1038,20 @@ TModC <- function(..., newdata=NULL, reference=NULL, type=C("ROC", "measures", "
   res$auc_grnk <- graphrank(res$auc_rnk)
   res$bs_grnk <- graphrank(res$bs_rnk)
 
-  if(!is.null(ord))
-    if(match.arg(ord, choices = c("auc", "brier"))=="auc")
-      res <- Sort(res, decreasing=TRUE)
-  else if(match.arg(ord, choices = c("auc", "brier"))=="brier")
-    res <- Sort(res, ord=4, decreasing=FALSE)
+
+  ord <- match.arg(ord, choices = c("ensemble", colnames(res)))
+  if(ord=="brierscore")
+    res <- Sort(res, ord="brierscore", decreasing=FALSE)
+
+  else if(ord=="ensemble"){
+    id <- order(apply(res[, c("auc_p","bs_p")], 1, mean),
+                decreasing = TRUE)
+    res <- res[id, ]
+
+  } else {
+    res <- Sort(res, ord=ord, decreasing=TRUE)
+
+  }
 
   class(res) <- c("TModC", class(res))
   res
@@ -1300,5 +1328,44 @@ RefLevel <- function(x){
 
 }
 
+
+.InsertRefLevel <- function(ref, coeftable, pval){
+
+  # call: .InsertRefLevel(ref=RefLevel(r.lm)$simple,
+  #                       coefficients(r.lm))
+
+  # insert reference levels for factors in a coefficient table
+  # rr <- RefLevel(x)$simple
+
+  for(i in seq_along(ref)){
+    ff <- names(ref[i])
+    rl <- ref[i]
+    j <- head(grep(ff, rownames(coeftable)), 1)
+    coeftable <- Append(coeftable, NA, after=j-1, rows=TRUE)
+    rownames(coeftable)[grep(ff, rownames(coeftable))] <-
+      gsub(ff, "  ", rownames(coeftable)[grep(ff, rownames(coeftable))])
+    rownames(coeftable)[j] <- gettextf("%s (Ref: %s)", ff, rl)
+
+    if(!is.null(pval))
+      coeftable[j, 8] <- Format(pval[grep(ff, rownames(pval)), ], fmt="*")
+
+  }
+
+  as.data.frame(coeftable)
+
+}
+
+
+
+InsertRow <- function(x, val, after=nrow(x)) {
+
+  # insert a row in a data.frame
+
+  x[seq(after+1, nrow(x)+1), ] <- x[seq(after, nrow(x)), ]
+  x[after, ] <- val
+
+  x
+
+}
 
 

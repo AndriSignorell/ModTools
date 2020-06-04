@@ -2,7 +2,7 @@
 export(
   "ROC", "Response", "VarImp",
   "SplitTrainTest", "LogitBoost","BreuschPaganTest", "TModC",
-  "Rules", "Splits", "LeafRates", "CP", "Purity", "Node", "FitMod", "NaiveBayes",
+  "Rules", "LeafRates", "CP", "Purity", "Node", "FitMod", "NaiveBayes",
   "PlotLiftChart", "Tune", "RefLevel"
 )
 
@@ -29,7 +29,7 @@ importFrom("pROC","roc","auc","coords", "ci.coords")
 importFrom("randomForest", "randomForest","importance", "tuneRF")
 importFrom("DescTools","Unwhich", "Conf","Cstat","Sort","BrierScore","DoCall","Pal","OddsRatio",
            "Format","SetAlpha","Desc", "ModSummary", "DescToolsOptions", "Fmt","IsDichotomous",
-           "PseudoR2", "SetNames", "Mode")
+           "PseudoR2", "SetNames", "Mode", "BoxedText")
 importFrom("C50","C5.0","C5imp")
 importFrom("e1071","svm")
 importFrom("rpart","rpart","path.rpart","printcp","plotcp")
@@ -112,6 +112,9 @@ S3method("fitted", "survreg")
 S3method(print, LeafRates)
 S3method(print, CP)
 S3method(plot, CP)
+
+S3method(print, node)
+
 
 S3method(drop1, FitMod)
 S3method(plot, LeafRates)
