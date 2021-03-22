@@ -24,7 +24,7 @@ BestCut(x, method = c("youden", "closest.topleft"))
   The \code{method} argument controls how the
   optimal threshold is determined.
   \describe{
-    \item{\dQuote{youden}}{
+    \item{'\code{youden}'}{
       Youden's J statistic (Youden, 1950) is employed. The optimal cut-off is the threshold
       that maximizes the distance to the identity (diagonal) line. Can
       be shortened to \dQuote{y}.
@@ -32,7 +32,7 @@ BestCut(x, method = c("youden", "closest.topleft"))
       The optimality criterion is:
       \deqn{max(sensitivities + specificities)}{max(sensitivities + specificities)}
     }
-    \item{\dQuote{closest.topleft}}{
+    \item{'\code{closest.topleft}'}{
       The optimal threshold is the point closest to the top-left part of
       the plot with perfect sensitivity or specificity. Can be shortened
       to \dQuote{c} or \dQuote{t}.
@@ -43,7 +43,7 @@ BestCut(x, method = c("youden", "closest.topleft"))
 }
 %%  ~~ If necessary, more details than the description above ~~
 }
-\value{
+\value{the threshold value
 %%  ~Describe the value returned
 %%  If it is a LIST, use
 %%  \item{comp1 }{Description of 'comp1'}

@@ -7,9 +7,9 @@ VarImp <- function(x, scale = FALSE, sort=TRUE, ...){
 }
 
 
-plot.VarImp <- function(x, sort=TRUE, maxrows=NULL, cex=1.1,
+plot.VarImp <- function(x, sort=TRUE, maxrows=NULL,
                         main="Variable importance", ...){
-  dotchart(rev(x), labels=rev(rownames(x)), cex=cex, main=main, ...)
+  dotchart(rev(x), labels=rev(rownames(x)), main=main, ...)
 }
 
 

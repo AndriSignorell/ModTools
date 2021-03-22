@@ -2,8 +2,8 @@
 export(
   "ROC", "Response", "VarImp",
   "SplitTrainTest", "LogitBoost","BreuschPaganTest", "TModC",
-  "Rules", "LeafRates", "CP", "Purity", "Node", "FitMod", "NaiveBayes",
-  "PlotLiftChart", "Tune", "RefLevel"
+  "Rules", "LeafRates", "CP", "Node", "FitMod",
+  "PlotLift", "Tune", "RefLevel","BestCut","OverSample","UnderSample"
 )
 
 
@@ -15,21 +15,20 @@ importFrom("stats", "predict", "vcov", "model.frame", "model.response", "na.pass
            "df.residual", "pnorm", "pt", "anova", "as.formula", "confint", "drop.scope",
            "drop1", "ftable", "glm", "model.extract", "reshape",
            "update", "AIC", "coefficients", "confint.default",
-           "deviance", "qnorm", "runif")
-
+           "deviance", "qnorm", "runif", "dnorm", "sd")
 importFrom("graphics", "dotchart", "grid", "plot", "par", "legend", "lines", "points")
 importFrom("grDevices", "palette")
 importFrom("methods", "slot")
-importFrom("utils", "capture.output", "head")
+importFrom("utils", "capture.output", "head", "write.table")
 
 importFrom("nnet", "nnet", "multinom")
-importFrom("MASS","lda","qda","stepAIC", "polr")
+importFrom("MASS","lda","qda","stepAIC", "polr","loglm")
 
 importFrom("pROC","roc","auc","coords", "ci.coords")
 importFrom("randomForest", "randomForest","importance", "tuneRF")
 importFrom("DescTools","Unwhich", "Conf","Cstat","Sort","BrierScore","DoCall","Pal","OddsRatio",
            "Format","SetAlpha","Desc", "ModSummary", "DescToolsOptions", "Fmt","IsDichotomous",
-           "PseudoR2", "SetNames", "Mode", "BoxedText")
+           "PseudoR2", "SetNames", "Mode", "BoxedText","Append", "ColToOpaque", "Sample")
 importFrom("C50","C5.0","C5imp")
 importFrom("e1071","svm")
 importFrom("rpart","rpart","path.rpart","printcp","plotcp")
@@ -46,7 +45,7 @@ importFrom("robustbase", "lmrob")
 
 importFrom("NeuralNetTools", "plotnet")
 importFrom("car", "Anova")
-
+importFrom("naivebayes", "naive_bayes")
 
 
 
@@ -74,6 +73,7 @@ S3method(OddsRatio, polr)
 
 S3method(print, Rules)
 S3method(print, TModC)
+S3method(plot, TModC)
 
 S3method(plot, VarImp)
 S3method(print, VarImp)
@@ -84,16 +84,8 @@ S3method(LogitBoost, default)
 S3method(confint, ROC)
 
 
-S3method(Tune, nnet)
 S3method(Tune, default)
-
-
-S3method(plot, NaiveBayes)
-S3method(predict, NaiveBayes)
-S3method(print, NaiveBayes)
-S3method(NaiveBayes, default)
-S3method(NaiveBayes, formula)
-
+S3method(print, Tune)
 
 
 ## methods for class Tobit
@@ -118,7 +110,7 @@ S3method(print, node)
 
 S3method(drop1, FitMod)
 S3method(plot, LeafRates)
-S3method(plot, Purity)
+
 
 
 

@@ -1,56 +1,45 @@
 \name{TModC}
 \alias{TModC}
+\alias{plot.TModC}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{Puts together results for classification models
-%%  ~~function to do ... ~~
+\title{Compare Classification Models
 }
-\description{Puts together results for classification models
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+\description{For the comparison of several classification models, the AUC values and BrierScore values of the models are determined and tabulated. Both the absolute values and the relative values are reported, each related to the model with the highest corresponding value.
 }
 \usage{
-TModC(..., newdata = NULL, reference = NULL,
-        type = C("ROC", "measures", "varimp"), col = NULL,
-        args.legend = NULL, ord = NULL)
+TModC(..., newdata = NULL, reference = NULL, ord = NULL)
+
+\method{plot}{TModC}(x, col = NULL, args.legend = NULL,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{\dots}{a list with models
-%%     ~~Describe \code{\dots} here~~
+  \item{\dots}{the models to be compared}
+  \item{x}{\code{TModC} object to plot}
+
+  \item{newdata}{the data to use for predicting. If not provided, the \code{model.frame} will be used.}
+
+  \item{reference}{the reference values}
+  \item{ord}{character defining the order of the results table, can be any of \code{"auc"}, \code{"bs"},
+  \code{"auc_p"}, \code{"bs_p"}, \code{"bs_rnk"}, \code{"auc_rnk"}, \code{"ensemble"} (using the mean of \code{"auc_p"} and \code{"bs_p"} for the ranking).}
+  \item{col}{the color for the lines in the ROC plot}
+  \item{args.legend}{the legend to be placed in the ROC plot}
+
 }
-  \item{newdata}{the data to use for predicting
-%%     ~~Describe \code{newdata} here~~
-}
-  \item{reference}{the reference values
-%%     ~~Describe \code{reference} here~~
-}
-  \item{type}{type of result one out of ROC, measures, varimp
-%%     ~~Describe \code{type} here~~
-}
-  \item{col}{the color for the plotlines in ROC
-%%     ~~Describe \code{col} here~~
-}
-  \item{args.legend}{the legend in the ROC plot
-%%     ~~Describe \code{args.legend} here~~
-}
-  \item{ord}{the order of the results, one out of
-%%     ~~Describe \code{ord} here~~
-}
-}
-\details{Put together the results to compare classificators.
-%%  ~~ If necessary, more details than the description above ~~
-}
-\value{plot and table
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+\value{a matrix with the columns
+  \item{auc }{absolute value of area under the ROC curve (AUC) }
+  \item{auc_p}{percentage of the auc based on the best observerd AUC}
+  \item{auc_rnk}{the rank of the auc}
+  \item{bs }{absolute value of the Brier score}
+  \item{bs_p}{percentage of the Brier score based on the best observed BS}
+  \item{bs_rnk}{the rank of the BS}
+  \item{auc_grnk}{character representation of the AUC rank}
+  \item{bs_grnk}{character representation of the BS rank}
 }
 
 \author{Andri Signorell <andri@signorell.net>
 %%  ~~who you are~~
 }
-\seealso{\code{\link[DescTools]{TMod}}
+\seealso{\code{\link[DescTools]{TMod}}, \code{\link[DescTools]{BrierScore}}, \code{\link[DescTools]{AUC}}, \code{\link{ROC}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
@@ -62,7 +51,11 @@ r.glm <- FitMod(mdiab, data=d.pim$train, fitfn="logit")
 r.rp <- FitMod(mdiab, data=d.pim$train, fitfn="rpart")
 mods <- list(glm=r.glm, rp=r.rp)
 
-TModC(mods, ord="a")
+# the table with the measures
+(tm <- TModC(mods, ord="auc"))
+
+# plotting the ROC curves
+plot(tm, col=c("darkmagenta", "dodgerblue"))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

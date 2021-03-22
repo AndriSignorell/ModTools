@@ -1,44 +1,11 @@
 
-Tune <- function(x, scale = FALSE, sort=TRUE, type=NULL, ...){
+Tune <- function(x, ..., testset=NULL, keepmod=TRUE){
   UseMethod("Tune")
 }
 
 
 
-
-
-# Tune.FitMod <- function(x, scale = FALSE, sort=TRUE, type=NULL, ...){
-#
-#   if(inherits(x, "lm")){
-#     VarImp.lm(x, scale=scale, sort=sort, type=type, ...)
-#
-#   } else if(inherits(x, "nnet")){
-#     .predict.nnet(x, ...)
-#
-#
-#   } else if(inherits(x, "glm")){
-#     .VarImp.glm(x, scale=scale, sort=sort, type=type, ...)
-#
-#   } else if(inherits(x, "rpart")){
-#     .VarImp.rpart(x, scale=scale, sort=sort, type=type, ...)
-#
-#   } else if(inherits(x, "rf")){
-#     tuneRF(x, scale=scale, sort=sort, type=type, ...)
-#
-#   } else if(inherits(x, "nnet")){
-#     .VarImp.nnet(x, scale=scale, sort=sort, type=type, ...)
-#
-#   } else if(inherits(x, "C5.0")){
-#     .VarImp.C5.0(x, scale=scale, sort=sort, type=type, ...)
-#
-#   } else {
-#     NextMethod(x, sort=sort, type=type, ...)
-#   }
-#
-# }
-
-
-Tune.nnet <- function(x, ..., testset=NULL){
+Tune.default <- function(x, ..., testset=NULL, keepmod=TRUE){
 
   mpar <- list(...)
 
@@ -53,30 +20,31 @@ Tune.nnet <- function(x, ..., testset=NULL){
   }
 
   tpar$acc <- sapply(lst, function(x) Conf(x)$acc)
+
   if(!is.null(testset)){
     xresp <- attr(Response(x), "response")
     tpar$test_acc <- sapply(lst, function(x) Conf(predict(x, newdata=testset),
                                                   ref=testset[, xresp])$acc)
-
   }
-  return(list(modpar=Sort(tpar, ncol(tpar), decreasing = TRUE), mods=lst))
+
+  if(keepmod)
+    res <- list(modpar=Sort(tpar, ncol(tpar), decreasing = TRUE),
+                mods=lst)
+  else
+    res <- list(modpar=Sort(tpar, ncol(tpar), decreasing = TRUE),
+                mods=NULL)
+
+  class(res) <- "Tune"
+  return(res)
+
 
 }
 
 
 
-Tune.default <- function(x, ...){
-
-  cat(gettextf("No tune procedure found for %s.\n", class(x)))
-}
-
-
-
-
-
-print.Tune <- function(x, digits = 2, ...) {
+print.Tune <- function(x, digits = 4, ...) {
   # print as data.frame if something was changed
-  print(round(data.frame(x[]), digits=digits))
+  print(round(data.frame(x$modpar), digits=digits))
 }
 
 

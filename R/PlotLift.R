@@ -6,7 +6,7 @@
 
 
 ## Lift charts and scoring
-PlotLiftChart <- function(modelList, data, targLevel, trueResp, type="cumulative",
+PlotLift <- function(modelList, data, targLevel, trueResp, type="cumulative",
                        sub="") {
   if(type != "cumulative" & type != "incremental") {
     stop("An improper lift chart type is specified.")
@@ -49,7 +49,9 @@ PlotLiftChart <- function(modelList, data, targLevel, trueResp, type="cumulative
   }
   yvar <- as.numeric(yvar2 == targLevel)
   sampResp <- sum(yvar)/length(yvar)
-  print(sampResp)
+
+  # print(sampResp)
+
   if(length(probVar)>0) {
     probVar <- unique(probVar)
     probModel <- modelList[!modAvail]
@@ -144,6 +146,8 @@ PlotLiftChart <- function(modelList, data, targLevel, trueResp, type="cumulative
     legend("topright",legend=modelList,col=colr[1:nmodels],
            pch=1:nmodels, lty=1, lwd=2)
   }
-  invisible()
+
+  invisible(sampResp)
+
 }
 

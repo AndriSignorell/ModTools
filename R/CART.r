@@ -1,16 +1,10 @@
 # ****************************************************************************
 #
-# Projekt:  RegClassTools.r (will be sourced there)
+# Projekt:  ModTools
 #
 # Zweck:    some CART stuff, routines for handling rparts
 #
 # Autor:    partly by B. Compton, compiled and extended by Andri Signorell
-# Version:	0.1 (in development)
-#
-# Depends:
-#
-# Datum:
-#           04.12.2013 	created
 #
 # ****************************************************************************
 
@@ -38,6 +32,20 @@
 
 
 
+.myStripStyle <- function(which.panel, factor.levels, ...) {
+  panel.rect(0, -0.5, 1, 1,
+             col = "grey",
+             border = 1)
+  panel.text(x = 0.5, y = 0.25,
+             font=2,
+             lab = gettextf("%s", factor.levels[which.panel]),
+             col = "black")
+}
+
+
+
+
+
 # Rules ------------------
 Rules <- function(x, node=NULL, leafonly = FALSE) {
 
@@ -46,10 +54,11 @@ Rules <- function(x, node=NULL, leafonly = FALSE) {
   # Get some information.
   #
 
-  node <- as.character(node)
 
   if(is.null(node))
     node <- rownames(x$frame)
+  else
+    node <- as.character(node)
 
   frm <- x$frame[node, ]
 
@@ -98,7 +107,6 @@ print.Rules <- function(x, ...){
   cat("\n")
 
 }
-
 
 
 
@@ -314,6 +322,8 @@ BestTree <- function(x) {
   )
 }
 
+
+
 # Splits --------------
 
 Splits <- function(x) {
@@ -330,13 +340,57 @@ Splits <- function(x) {
     x[a] <- paste(":", x[a], sep="")
     x[!a] <- paste( apply(x, 2, substr, 1, 1),apply(x, 2, substring, 3, last=100), sep="")[!a]
     colnames(x) <- c("cutleft", "cutright")
+
     x
 }
 
 
 
+
 # LeafRates and LeafHist --------------
 
+
+#
+# # Purity ------------------
+# Purity <- function(x, leaves=TRUE) {
+#
+#   if(x$method != "anova"){
+#     # returns the purity of all nodes
+#
+#     n <- ( ncol(x$frame$yval2) - 2 ) / 2
+#     xp <- diag(apply(x$frame$yval2[,-c(1:(n+1))], 1, "[", x$frame$yval))
+#
+#
+#     freq <- data.frame(node=row.names(x$frame), x$frame$yval2[, 2:(1+length(attr(x, "ylevels")))])
+#     colnames(freq)[-1] <- attr(x, "ylevels")
+#
+#     # res <- data.frame(node=rownames(x$frame), purity=xp)
+#     names(xp) <- rownames(x$frame)
+#
+#     if(leaves){
+#       xp <- xp[x$frame$var=="<leaf>"]
+#       freq <- freq[x$frame$var=="<leaf>",]
+#     }
+#
+#     res <- list(purity=xp, freq=freq)
+#
+#     class(res) <- c("Purity", class(res))
+#     return(res)
+#
+#   } else {
+#     return(NA)
+#   }
+# }
+
+
+# Columns of frame include the node, a factor giving the names of the variables used in
+# the split at each node (leaf nodes are denoted by the level "<leaf>"), n, the number
+# of observations reaching the node, wt, the sum of case weights for observations
+# reaching the node, dev, the deviance of the node, yval, the fitted value of the
+# response at the node, and splits, a two column matrix of left and right split labels
+# for each node. Also included in the frame are complexity, the complexity parameter
+# at which this split will collapse, ncompete, the number of competitor splits recorded,
+# and nsurrogate, the number of surrogate splits recorded.
 
 
 
@@ -348,7 +402,13 @@ LeafRates <- function(x) {
   # Rewritten, 16 Nov 2004
   # Modified for root trees, 15 Dec 2004
 
+  if(x$method == "anova"){
+    warning("Leafrates can't be returned for regression trees.")
+    return(NA)
+  }
+
   xx <- x$frame$yval2[x$frame$var == "<leaf>",]
+
   if(is.matrix(xx)) {
     z <- matrix(0,dim(xx)[1], 2)
     for(i in 1:dim(xx)[1])
@@ -356,28 +416,37 @@ LeafRates <- function(x) {
     z[,2] <- rowSums(xx[,2:((dim(xx)[2]-1)/2+1)]) - z[,1]
   }
   else z <- matrix(xx[c(3,2)],1,2)
+
   colnames(z) <- c('right', 'wrong')
   rownames(z) <- rownames(x$frame[x$frame$var == "<leaf>",])
 
+
   structure(
-    list(freq=z, p.row=prop.table(z, 1), mfreq=apply(z, 1, sum), mperc=prop.table(apply(z, 1, sum))),
+    list(node=rownames(z),
+         freq=z,
+         p.row=prop.table(z, 1),
+         mfreq=apply(z, 1, sum),
+         mperc=prop.table(apply(z, 1, sum))
+         ),
     class=c("LeafRates","list"))
 
 }
 
 
+
 print.LeafRates <- function(x, ...){
 
-  tlst <- list(
-    freq = Format(x$freq, fmt=Fmt("abs")),
-    perc = Format(x$p.row, fmt=Fmt("per")),
-    total = cbind(Format(x$mfreq, fmt=Fmt("abs")), Format(x$mperc, fmt=Fmt("per")))
-  )
+  z <- rbind(c("","freq","","perc","","total",""),
+               c("node","right","wrong","right","wrong","abs","perc"),
+               "",
+               cbind(x$node,
+                     Format(x$freq, fmt="abs"),
+                     Format(x$p.row, fmt="%", digits=1),
+                     Format(x$mfreq, fmt="abs"),
+                     Format(x$mperc, fmt="%")))
 
-  ma <- do.call("Abind", c(tlst, along = 3, use.dnns = TRUE))
-  ft <- ftable(ma, col.vars=c(3,2))
-
-  print(ft, justify="right", ...)
+  write.table(format(z, justify="left"), sep = " ",
+              row.names=FALSE, col.names=FALSE, quote=FALSE)
 
 }
 
@@ -385,7 +454,7 @@ print.LeafRates <- function(x, ...){
 
 
 
-plot.LeafRates <- function(x, col=c(DescTools::hblue, DescTools::hred), type=c("rel","abs"),
+plot.LeafRates <- function(x, col=NULL, which=c("rel","abs"),
                            layout=NULL, ylim=NULL, ...){
 
 
@@ -403,9 +472,12 @@ plot.LeafRates <- function(x, col=c(DescTools::hblue, DescTools::hred), type=c("
   #                        class=rep(attr(x, "ylevels"), times=nrow(m.leaves))
   # )
 
-  type <- match.arg(type)
+  if(is.null(col))
+    col <- c(DescTools::hblue, DescTools::hred)
 
-  if(type=="rel"){
+  which <- match.arg(which)
+
+  if(which=="rel"){
     if(is.null(ylim))
       ylim = c(0, 1.1)
     ylab = "relative freq."
@@ -422,14 +494,15 @@ plot.LeafRates <- function(x, col=c(DescTools::hblue, DescTools::hred), type=c("
 
   idx <- d.leaves$leaf[1:nrow(x$freq)]
 
-  if(type=="rel")
+  if(which=="rel")
     d.leaves$frq <- c(x$p.row[,1], x$p.row[,2])
 
   if(is.null(layout))
     layout <- c(nrow(x$freq), 1)
 
   # what a zangengeburt.... node order as in the original result
-  id <- order(as.numeric(Sort(cbind(nod=rownames(x$freq), nr=1:nrow(x$freq)))[,2]))
+  id <- order(as.numeric(Sort(cbind(nod=rownames(x$freq),
+                                    nr=1:nrow(x$freq)))[,2]))
 
   barchart( frq ~ class|leaf,  data=d.leaves,
             stack=FALSE, horiz=FALSE, layout=layout, ylab=ylab, xlab="classes",
@@ -447,97 +520,23 @@ plot.LeafRates <- function(x, col=c(DescTools::hblue, DescTools::hred), type=c("
 
 
 
-.myStripStyle <- function(which.panel, factor.levels, ...) {
-  panel.rect(0, -0.5, 1, 1,
-             col = "grey",
-             border = 1)
-  panel.text(x = 0.5, y = 0.25,
-             font=2,
-             lab = gettextf("%s", factor.levels[which.panel]),
-             col = "black")
+# Complexity parameter
+CP <- function(x, ...){
+  structure(list(cp=x$cptable,
+                 mincp=x$cptable[which.min(x$cptable[,"xerror"]), "CP"],
+                 x=x), class=c("CP"))
 }
 
 
 
-
-
-# Purity ------------------
-Purity <- function(x, leaves=TRUE) {
-
-  if(x$method != "anova"){
-    # returns the purity of all nodes
-
-    n <- ( ncol(x$frame$yval2) - 2 ) / 2
-    xp <- diag(apply(x$frame$yval2[,-c(1:(n+1))], 1, "[", x$frame$yval))
-
-
-    freq <- data.frame(node=row.names(x$frame), x$frame$yval2[, 2:(1+length(attr(x, "ylevels")))])
-    colnames(freq)[-1] <- attr(x, "ylevels")
-
-    # res <- data.frame(node=rownames(x$frame), purity=xp)
-    names(xp) <- rownames(x$frame)
-
-    if(leaves){
-      xp <- xp[x$frame$var=="<leaf>"]
-      freq <- freq[x$frame$var=="<leaf>",]
-    }
-
-    res <- list(purity=xp, freq=freq)
-
-    class(res) <- c("Purity", class(res))
-    return(res)
-
-  } else {
-    return(NA)
-  }
+print.CP <- function(x, digits = getOption("digits") - 2L, ...){
+  rpart::printcp(x$x, digits=digits, ...)
+  cat("\n")
 }
 
-
-
-
-plot.Purity <- function(x, col=c(DescTools::hblue, DescTools::hred), type=c("abs","rel"),
-                        layout=NULL, ylim=NULL, ...){
-
-  # myStripStyle <- function(which.panel, factor.levels, ...) {
-  #   panel.rect(0, -0.5, 1, 1,
-  #              col = "grey",
-  #              border = 1)
-  #   panel.text(x = 0.5, y = 0.25,
-  #              font=2,
-  #              lab = gettextf("%s", factor.levels[which.panel]),
-  #              col = "black")
-  # }
-
-
-  ylab <- ""
-
-  if(is.null(layout))
-    layout <- c(nrow(x$freq), 1)
-
-
-  d.nodes <- reshape(x$freq, idvar="node", varying=colnames(x$freq)[-1],
-                     v.names="n", timevar="ind",
-                     direction="long")
-
-  if(is.null(ylim))
-    ylim <- c(0, max(pretty(d.nodes$n*1.1)))
-
-  # what a zangengeburt.... node order as in the original result
-  id <- order(as.numeric(Sort(cbind(nod=as.character(x$freq$node), nr=1:nrow(x$freq)))[,2]))
-
-  barchart( n ~ ind | node,  data=d.nodes,
-            stack=FALSE, horiz=FALSE, layout=layout, ylab=ylab, xlab="classes",
-            ylim=ylim, index.cond=list(id),
-            panel = function(y, x, ...){
-              cols <- rep(col, length(y))
-              # cols[which.max(y)] <- col[1]
-              panel.barchart(x, y,..., col=cols, origin=0, box.width=0.85)
-            },
-
-            strip= getOption("latstrip", .myStripStyle)
-
-  )
-
+plot.CP <- function(x, minline = TRUE, lty = 3,
+                    col = 1, upper = c("size", "splits", "none"), ...){
+  rpart::plotcp(x$x, minline, lty, col, upper=upper, ...)
 }
 
 
@@ -545,7 +544,9 @@ plot.Purity <- function(x, col=c(DescTools::hblue, DescTools::hred), type=c("abs
 
 
 # plot.rpart ------------------
-# we override the native rpart plot
+
+# we override the native rpart plot and use rpart.plot here
+
 plot.rpart <- function (x = stop("no 'x' arg"), type = 2, extra = "auto",
                         under = FALSE, fallen.leaves = TRUE, digits = 2, varlen = 0,
                         faclen = 0, roundint = TRUE, cex = NULL, tweak = 1, clip.facs = FALSE,
@@ -574,151 +575,6 @@ plot.rpart <- function (x = stop("no 'x' arg"), type = 2, extra = "auto",
 
 
 
-
-
-
-# Complexity parameter
-CP <- function(x, ...){
-  structure(list(cp=x$cptable,
-                 mincp=x$cptable[which.min(x$cptable[,"xerror"]), "CP"],
-                 x=x), class=c("CP"))
-}
-
-
-
-
-print.CP <- function(x, digits = getOption("digits") - 2L, ...){
-  rpart::printcp(x$x, digits=digits, ...)
-  cat("\n")
-}
-
-plot.CP <- function(x, minline = TRUE, lty = 3,
-                    col = 1, upper = c("size", "splits", "none"), ...){
-  rpart::plotcp(x$x, minline, lty, col, upper=upper, ...)
-}
-
-
-
-
-
-PlotTree <- function(x, type=c("vert", "horiz", "min"), cols=NULL, shade=NULL,
-                     args.legend=NULL, main="", fallen.leaves = TRUE, ...){
-
-  # example:
-  # PlotTree(r.rpart, cols=cols, uniform=TRUE, args.legend=list(x="topleft", inset=0.05), main="Type ~ .")
-
-  .nodeFullVert <- function(x, labs, digits, varlen) {
-    # function for rpart.plot to describe the leaf nodes with abs. and rel freq
-    m <- x$frame$yval2[,-1]
-    m <- m[,1:((ncol(m)-1)/2)]
-    pm <- gsub(pattern=" 0", replacement=" ",
-               apply(apply(apply(m, 1, prop.table),1, Format, digits=3), 1, paste, collapse=" ")
-    )
-
-    nclass <- attr(x, "ylevels")[x$frame$yval]
-    nnode <- rownames(x$frame)
-    txt <- character(nrow(m))
-    for(i in 1: nrow(m)){
-      ns <- data.frame(class=attr(x, "ylevels"),
-                       obs=m[i,], perc=Format(t(apply(m, 1, prop.table))[i,] *100, 1), stringsAsFactors=FALSE)
-      ns$class[which.max(ns$perc)] <- paste(">", ns$class[which.max(ns$perc)])
-      txt[i] <- paste(capture.output(print(ns, row.names=FALSE, digits=digits)), collapse="\n")
-      txt[i] <- paste(gettextf("  node %s - class %s\n     n = %s\n-------------------\n",
-                               nnode[i], nclass[i], x$frame$n[i]), txt[i])
-    }
-    return(txt)
-  }
-
-  .nodeFull <- function(x, labs, digits, varlen) {
-    # function for rpart.plot to describe the leaf nodes with abs. and rel freq
-    m <- x$frame$yval2[,-1]
-    m <- m[,1:((ncol(m)-1)/2)]
-    pm <- gsub(pattern=" 0", replacement=" ",
-               apply(apply(apply(m, 1, prop.table),1, Format, digits=3), 1, paste, collapse=" ")
-    )
-
-    paste(gettextf("node %s, class %s\n", rownames(x$frame), labs), apply(m, 1, paste, collapse=" "),
-          "\n", pm)
-  }
-
-  .nodeNone <- function(x, labs, digits, varlen){rep("  ", nrow(x$frame))}
-  .splitNone <- function(x, labs, digits, varlen, faclen){rep("  ", nrow(x$frame))}
-
-  xpd <- par(xpd=TRUE); on.exit(par(xpd))
-
-  if(is.null(cols)){
-    cols <- "white"
-    if(is.null(args.legend)) args.legend <- NA  # no default legend if there are no colors
-  }
-  nodecols <- cols[x$frame$yval2[,1]]
-
-  if(is.null(shade)) shade <- TRUE
-  if(shade & x$method=="class"){
-    # we don't have purity for regression trees
-    nodecols <- SetAlpha(nodecols, Purity(x)$purity)
-  }
-
-  switch( match.arg(type) ,
-          "vert" = {
-            res <- plot(x, node.fun=.nodeFullVert, box.col=nodecols, fallen.leaves=fallen.leaves,
-                        split.box.col="lightgray",   # lightgray split boxes (default is white)
-                        split.border.col="darkgray", # darkgray border on split boxes
-                        split.round=.4,
-                        leaf.round=.4, main = main,
-                        ...)
-          },
-          "horiz" = {
-            res <- plot(x, node.fun=.nodeFull, box.col=nodecols, fallen.leaves=fallen.leaves,
-                        split.box.col="lightgray",   # lightgray split boxes (default is white)
-                        split.border.col="darkgray", # darkgray border on split boxes
-                        split.round=.4,
-                        leaf.round=.4, main = main,
-                        ...)
-          },
-          "min" =  {
-            res <- plot(x, node.fun=.nodeNone, box.col=nodecols, round=0
-                        , split.shadow.col="grey", split.box.col=nodecols, split.border.col="black"
-                        , split.fun=.splitNone, yesno=FALSE
-                        , boxes.include.gap = TRUE, main=main, nspace=0, minbranch=.01, ...)
-          }
-  )
-
-  args.legend1 <- list( x="topright", inset=0.02, legend=attr(x, "ylevels")
-                        , fill=col, bg="white", cex=0.8 )
-  args.legend1[["fill"]] <- cols
-  args.legend1[["title"]] <- " classes"
-
-  if ( !is.null(args.legend) ) { args.legend1[names(args.legend)] <- args.legend }
-  add.legend <- TRUE
-  if(!is.null(args.legend)) if(all(is.na(args.legend))) {add.legend <- FALSE}
-
-  if(add.legend) do.call("legend", args.legend1)
-
-  invisible(res)
-
-}
-
-# PlotTree(r.pima, uniform=FALSE, type="horiz", fallen.leaves=TRUE)
-
-# PlotTree(r.rp, uniform=FALSE, type="horiz", fallen.leaves=TRUE)
-
-#
-# PlotTree examples:
-#
-# windows(w=20, h=15)
-# PlotTree(r.glass, type="fullv", cols=PalTibco()[2:8], fallen.leaves=FALSE,
-#          args.legend=list(x="topleft"), main="Glass")
-#
-# windows(w=6, h=5)
-# PlotTree(r.glass, type="min", cols=PalTibco()[2:8], main="Glass",
-#          fallen.leaves=FALSE, args.legend=list(x="topleft"))
-
-# PlotTree(r.rpart, type="fullv", cols=cols, uniform=TRUE, args.legend=list(x="topleft", inset=0.05), main="Type ~ .")
-
-
-
-
-
 .predict.rpart <- function (object, newdata, type = c("vector", "prob", "class",
                                    "matrix", "where", "leaf"), na.action = na.pass, ...){
 
@@ -733,7 +589,6 @@ PlotTree <- function(x, type=c("vert", "horiz", "min"), cols=NULL, shade=NULL,
 
 
 }
-
 
 
 .predict.leaves <- function (rp, newdata, type = "where") {
@@ -1039,130 +894,3 @@ print.node <- function(x, digits=3, ...){
 #' }
 
 
-
-
-# usual --------------
-
-# These are B. Comptons defaults
-# "usual" <-
-#   structure(list(minsplit = 8, minbucket = 5, cp = 0, maxcompete = 100,
-#                  maxsurrogate = 100, usesurrogate = 2, surrogatestyle = 0,
-#                  xval = 10, maxdepth = 30), .Names = c("minsplit", "minbucket",
-#                                                        "cp", "maxcompete", "maxsurrogate", "usesurrogate", "surrogatestyle",
-#                                                        "xval", "maxdepth"))
-#
-
-# loss ??? what is this used for?  --------------
-
-# "loss" <-
-#   function(cost)
-#   {
-#     # Create 2x2 loss matrix from cost
-#
-#     if (length(cost) == 1)
-#       cost <- c(cost,1)
-#     list(loss = t(matrix(c(0,cost,0),2,2)))
-#   }
-#
-
-
-# kappatau
-#
-# "kappatau" <-
-#   function(c, p)
-#   {
-#     # kappatau
-#     # Compute Kappa or Tau statistic for confusion matrix.  Returns as global kt.
-#     # Reference: McGarigal, K, S. Cushman, and S. Stafford. 2000. Multivariate statistics
-#     #    for wildlife and ecology research. Springer-Verlag, New York. Pages 165-166.
-#     # B. Compton, 15 Nov 2004, 12 Aug 2005, 29 Nov 2005, 8 May 2006
-#
-#     b <- 0 != rowSums(c)+colSums(c)		# remove any unused classes
-#     c <- c[b,b]
-#     p <- p[b]
-#     if (all(p == (rowSums(c)/sum(c)))) {
-#       # Priors are proportional to group sizes (default), so do kappa
-#       e <- sum(rowSums(c)*colSums(c))/sum(c)
-#       kt <<- (sum(diag(c)) - e) / (sum(c) - e)
-#
-#       cat ('Kappa = ',round(kt,3), '\n')
-#     }
-#     else {
-#       # Priors specified, so do tau
-#       e <- sum(p * rowSums(c))
-#       kt <<- (sum(diag(c)) - e) / (sum(c) - e)
-#
-#       cat ('Tau = ',round(kt,3), '\n')
-#     }
-#   }
-
-# Improve: don't know what this does... ----------------
-
-# Improve <- function(n, l, r, t, c, p, y) {
-#
-#   .SSD <- function(x) {
-#     # Give sum of squared deviations of x
-#     sum((x - mean(x))^2)
-#   }
-#
-#   .gini <- function(x, c = NULL, p = NULL, y) {
-#
-#     # Gini index of x
-#     # Use costs c and priors p, and entire response variable y
-#     # B. Compton, 29 Nov 2005
-#     #
-#     # Current version (14 Dec 2005) implements priors but not costs.
-#     # It matches Kevin's Gini/priors results, but still doesn't
-#     # give me same improvement as rpart for primary splitters when
-#     # priors are set (it matches when priors come from data).
-#     # Numbers are close (within 15%), but with no clear pattern of
-#     # disagreement.  Either Kevin & I have both misinterperted how
-#     # the Gini index incorporates priors, or the weightings for
-#     # the left/right splits are wrong.  Grr.
-#
-#
-#     g <- length(u <- unique(y)) # number of groups (get levels from response variable)
-#     h <- table(y) # total tree count in each group
-#     n <- rowSums(outer(u,x,FUN='==')) # number in each group
-#     s <- sum(n) # n across groups
-#
-#     if(is.null(c))    c <- 1*outer(1:g,1:g,FUN='!=') # default costs = all 1
-#     if(is.null(p))    p <- h/sum(h) # default priors = from data
-#
-#     r <- p*n/h                    # Kevin's version
-#     1 - sum((r/sum(r))^2)
-#
-#   }
-#
-#
-#   # Calculate delta-I for values in node, left child, and right child
-#   # Use deviance for regression trees (t = 'anova') and gini for classification trees
-#   # c = costs, p = priors, y = values of response variable
-#
-#   catn <- function(...){cat(paste(...,'\n'))}
-#
-#   n <- n[!is.na(n)]
-#   l <- l[!is.na(l)]
-#   r <- r[!is.na(r)]
-#
-#   if(t == 'anova') {  	# If regression tree, use deviance
-#     z <- .SSD(n) - .SSD(l) - .SSD(r)
-#     if(is.na(z)) catn(n,l,r)
-#   }
-#   else {					# For classification trees, use Gini index
-#
-#     catn('length(l)=',length(l),'length(r)=',length(r),'length(n)=',length(n))
-#
-#     q <- c(length(l),length(r)) / length(n)
-#
-#     a <- .gini(n, c, p, y)
-#     b <- .gini(l, c, p, y)
-#     c <- .gini(r, c, p, y)
-#
-#     z <- a - sum(q * c(b,c))
-#     catn('a=',a,'b=',b,'c=',c,'q=',q,'improvement=',z)
-#
-#   }
-#
-#   z
-# }

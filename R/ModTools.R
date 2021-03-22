@@ -681,8 +681,10 @@ FitMod <- function(formula, data, ..., subset, na.action=na.pass, fitfn=NULL){
     if(is.null(cl[["probability"]]))
       cl[["probability"]] <- TRUE
 
-  } else if(fitfn == "naiveBayes"){
-    fun <- NaiveBayes
+  } else if(fitfn == "naive_bayes"){
+    if (!requireNamespace("naivebayes", quietly = TRUE))
+      stop("package 'naivebayes' must be installed")
+    fun <- get("naive_bayes", asNamespace("naivebayes"), inherits = FALSE)
 
   } else if(fitfn == "lb"){
     fun <- get("LogitBoost", asNamespace("ModTools"), inherits = FALSE)
@@ -823,8 +825,10 @@ print.FitMod <- function(x, ...){
     NextMethod(x, ...)
 }
 
+rpart:::plot.rpart
 
-plot.FitMod <- function(x, y, ...){
+
+plot.FitMod <- function(x, ...){
 
   if(inherits(x, "rpart")){
     plot.rpart(x, ...)
@@ -844,7 +848,7 @@ plot.FitMod <- function(x, y, ...){
     plotnet(x, ...)
 
   } else {
-    NextMethod(x, y, ...)
+    NextMethod(x, ...)
   }
 }
 
@@ -863,6 +867,10 @@ Response <- function(x, ...){
   } else if(inherits(x, "rpart") & is.null(x$model)){
     res <- factor(attr(x, "ylevels")[x$y])
 
+  } else if(inherits(x, "naive_bayes")){
+    x$terms <- eval(x$call$formula)
+    res <- model.response(model.frame(x))
+
   } else {
     res <- model.response(model.frame(x))
   }
@@ -875,9 +883,23 @@ Response <- function(x, ...){
 }
 
 
+ResponseName <- function(x) {
+
+  # https://stat.ethz.ch/pipermail/r-help/2007-November/145649.html
+  f <- formula(x)
+  if(length(f) < 3) stop("no response")
+
+  resp <- f[[2]]
+
+  if(!is.name(resp)) stop("response is not a name")
+
+  as.character(resp)
+}
+
+
 
 Conf.FitMod <- function(x, ...){
-  if(inherits(x, c("C5.0", "nnet", "NaiveBayes", "lda", "LogitBoost")))
+  if(inherits(x, c("C5.0", "nnet", "naive_bayes", "lda", "LogitBoost")))
     Conf(x=predict(x, type="class"), ref=Response(x), ... )
   else
     NextMethod(x, ...)
@@ -975,17 +997,11 @@ BreuschPaganTest <- function(formula, varformula = NULL, studentize = TRUE,
 
 
 
-TModC <- function(..., newdata=NULL, reference=NULL, type=C("ROC", "measures", "varimp"),
-                    col=NULL, args.legend=NULL, ord=NULL){
+TModC <- function(..., newdata=NULL, reference=NULL, ord=NULL){
 
   graphrank <- function(i)
     paste(strrep(".", i-1), "x", strrep(".", max(i) - i), sep="")
 
-
-  if(is.null(col))
-    cols <- Pal("Tibco")
-  else
-    cols <- cols
 
   mods <- list(...)
   if(length(mods)==1)
@@ -997,23 +1013,74 @@ TModC <- function(..., newdata=NULL, reference=NULL, type=C("ROC", "measures", "
       rocs[[i]] <-  ROC(predict(mods[[i]], newdata=newdata, type="prob")[, 2],
                         resp = reference, plotit=FALSE)
 
-    # rocs <- lapply(mods[[1]], function(x) {
-    #   ROC(predict(x, newdata=newdata, type="prob")[, 2], resp = reference) })
-
   } else {
     rocs <- lapply(mods, ROC)
   }
-  sapply(seq_along(rocs),
-         function(i) plot(rocs[[i]], add=(i!=1), col=cols[i]))
 
 
   xname <- names(mods)
   if(is.null(xname))
     xname <- paste("model", seq_along(mods))
 
+
+  auc <- sapply(rocs, function(x) x$auc)
+  bs <- sapply(mods, BrierScore)
+
+  res <- data.frame(auc=sapply(rocs, function(x) x$auc),
+                    auc_p=auc/max(auc),
+                    auc_rnk=rank(-auc),
+                    bs=sapply(mods, BrierScore),
+                    bs_p=((1-bs)/max(1-bs)),
+                    bs_rnk=rank(bs))
+  res$auc_grnk <- graphrank(res$auc_rnk)
+  res$bs_grnk <- graphrank(res$bs_rnk)
+
+
+  ord <- match.arg(ord, choices = c("ensemble", colnames(res)))
+
+  if(ord=="bs")
+    res <- Sort(res, ord="bs", decreasing=FALSE)
+
+  else if(ord=="ensemble"){
+    id <- order(apply(res[, c("auc_p","bs_p")], 1, mean),
+                decreasing = TRUE)
+    res <- res[id, ]
+
+  } else {
+    res <- Sort(res, ord=ord, decreasing=TRUE)
+
+  }
+
+  res <- list(tab=res, rocs=rocs, xname=xname)
+
+  class(res) <- c("TModC", class(res))
+  res
+}
+
+
+
+print.TModC <- function(x, ...){
+
+  print.data.frame(Format(x$tab, digits=c(3,3,0,3,3,0,0,0)),
+                   print.gap=2, ...)
+
+}
+
+
+plot.TModC <- function(x, col=NULL, args.legend=NULL, ...){
+
+  if(is.null(col))
+    cols <- Pal("Tibco")
+  else
+    cols <- col
+
+
+  sapply(seq_along(x$rocs),
+         function(i) plot(x$rocs[[i]], add=(i!=1), col=cols[i]))
+
   grid()
 
-  args.legend1 <- list(x = "bottomright", inset = 0, legend = xname,
+  args.legend1 <- list(x = "bottomright", inset = 0, legend = x$xname,
                        fill = cols, bg = "white", cex = 1.0)
   if (!is.null(args.legend)) {
     args.legend1[names(args.legend)] <- args.legend
@@ -1026,45 +1093,10 @@ TModC <- function(..., newdata=NULL, reference=NULL, type=C("ROC", "measures", "
   if (add.legend)
     DoCall("legend", args.legend1)
 
-  auc <- sapply(rocs, function(x) x$auc)
-  bs <- sapply(mods, BrierScore)
-
-  res <- data.frame(auc=sapply(rocs, function(x) x$auc),
-                    auc_p=auc/max(auc),
-                    auc_rnk=rank(-auc),
-                    brierscore=sapply(mods, BrierScore),
-                    bs_p=((1-bs)/max(1-bs)),
-                    bs_rnk=rank(bs))
-  res$auc_grnk <- graphrank(res$auc_rnk)
-  res$bs_grnk <- graphrank(res$bs_rnk)
-
-
-  ord <- match.arg(ord, choices = c("ensemble", colnames(res)))
-  if(ord=="brierscore")
-    res <- Sort(res, ord="brierscore", decreasing=FALSE)
-
-  else if(ord=="ensemble"){
-    id <- order(apply(res[, c("auc_p","bs_p")], 1, mean),
-                decreasing = TRUE)
-    res <- res[id, ]
-
-  } else {
-    res <- Sort(res, ord=ord, decreasing=TRUE)
-
-  }
-
-  class(res) <- c("TModC", class(res))
-  res
-}
-
-
-
-print.TModC <- function(x, ...){
-
-  print.data.frame(Format(x, digits=c(3,3,0,3,3,0,0,0)),
-                   print.gap=2, ...)
 
 }
+
+
 
 
 Conf.polr <- function(x, ...) {
@@ -1319,12 +1351,13 @@ RefLevel <- function(x){
   resp <- all.vars(formula(x))[1]
   fpred <- fpred[fpred != resp]
 
-  list( complicated=
+  # list( complicated=
+  # sapply(fpred , function(z) refCat(x, z))
+  #
+  # # or simply?
+  # , simple=sapply(x$xlevels, "[", 1))
+
   sapply(fpred , function(z) refCat(x, z))
-
-  # or simply?
-  , simple=sapply(x$xlevels, "[", 1))
-
 
 }
 
@@ -1369,3 +1402,15 @@ InsertRow <- function(x, val, after=nrow(x)) {
 }
 
 
+OverSample <- function(x, vname){
+  p <- sort(prop.table(table(x[, vname])))[1]
+  xbig <- x[x[,vname] != names(p),]
+  return(rbind(xbig, Sample(x[x[,vname] == names(p),], size=nrow(xbig), replace=TRUE)))
+}
+
+
+UnderSample <- function(x, vname){
+  p <- sort(prop.table(table(x[, vname])))[1]
+  xsmall <- x[x[,vname] == names(p),]
+  return(rbind(xsmall, Sample(x[x[,vname] != names(p),], size=nrow(xsmall), replace=FALSE)))
+}

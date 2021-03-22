@@ -6,9 +6,9 @@
 
 }
 \description{
-There is a rich selection of R packages implementing algorithms for classification and regression tasks out there. The authors legitimately take the liberty to tailor the function interfaces according to their own taste  and needs. For us other users, however, this often results in struggling with user interfaces, some of which are - to put it mildly - rather weird and almost always different in terms of arguments and result structures.
-\bold{ModTools} pursues the goal of offering uniform handling for at least the most important regression and classification models.\cr
-The function \code{FitMod()} is designed as simple and consistent interface to these original functions while maintaining the flexibility to pass on all possible arguments. \code{print}, \code{plot}, \code{summary} and \code{predict} operations can so be carried out consistently. The results will again be reshaped to a reasonable standard.
+There is a rich selection of R packages implementing algorithms for classification and regression tasks out there. The authors legitimately take the liberty to tailor the function interfaces according to their own taste  and needs. For us other users, however, this often results in struggling with user interfaces, some of which are rather weird - to put it mildly - and almost always different in terms of arguments and result structures.
+\bold{ModTools} pursues the goal of offering uniform handling for the most important regression and classification models in applied data analyses.\cr
+The function \code{FitMod()} is designed as a simple and consistent interface to these original functions while maintaining the flexibility to pass on all possible arguments. \code{print}, \code{plot}, \code{summary} and \code{predict} operations can so be carried out following the same logic. The results will again be reshaped to a reasonable standard.
 
 For all the functions of this package Google styleguides are used as naming rules (in absence of convincing alternatives). The 'CamelStyle' has been consequently applied to functions borrowed from contributed R packages as well.
 
@@ -20,35 +20,37 @@ As always: Feedback, feature requests, bugreports and other suggestions are welc
 
 
 \details{
-ModTools comprises interfaces to the following models: \cr
-
+ModTools comprises interfaces to the following models:
 \tabular{ll}{
 \cr\cr
 \bold{Regression}:\tab\cr
- \code{\link{lm}()}  \tab 	 Linear model OLS\cr
- \code{\link[robustbase]{lmrob}()}  \tab 	 Robust linear model (package \bold{robustbase})\cr
- \code{poisson()}  \tab 	GLM model with family \code{poisson}\cr
- \code{negbin()}  \tab 	GLM model with family \code{negative.binomial} (package  \bold{MASS})\cr
- \code{gamma()}  \tab 	Gamma model \code{\link{glm}}, family \code{gamma}\cr
+ \code{\link{lm}()}  \tab 	 Linear model OLS (\bold{base})\cr
+ \code{\link[robustbase]{lmrob}()}  \tab 	 Robust linear model (\bold{robustbase})\cr
+ \code{poisson()}  \tab 	GLM model with family \code{poisson} (\bold{base})\cr
+ \code{negbin()}  \tab 	GLM model with family \code{negative.binomial} (\bold{MASS})\cr
+ \code{gamma()}  \tab 		GLM model with family \code{gamma} (\bold{base})\cr
  \code{tobit()}  \tab 	Tobit model for censored responses (package  \bold{AER})\cr
 \cr\cr\cr
 \bold{Classification}:	\tab\cr
-\code{\link{lda}()}  \tab 	 Linear discriminant analysis (package  \bold{MASS})\cr
-\code{\link{qda}()}  \tab 	 Quadratic discriminant analysis (package  \bold{MASS})\cr
-\code{logit()}  \tab 	 Logistic Regression model (\code{\link{glm}}, family \code{binomial(logit)})\cr
-\code{\link{multinom}()}  \tab 	 Multinomial Regression model (package  \bold{nnet})\cr
- \code{\link[MASS]{polr}()}  \tab 	 Proportional odds model (package \bold{MASS})\cr
-\code{\link{rpart}()}  \tab 	 Regression and classification trees (package  \bold{rpart})\cr
-\code{\link[nnet]{nnet}()}  \tab 	 Neuronal networks (package  \bold{nnet})\cr
-\code{\link[randomForest]{randomForest}()}   \tab 	 Random forests (package  \bold{randomForest})\cr
-\code{\link[C50]{C5.0}()}   \tab 	 C5.0 tree (package  \bold{C50})\cr
-\code{\link[e1071]{svm}()}   \tab 	 Support vector machines (package  \bold{e1071})\cr
-\code{\link[e1071]{naiveBayes}()}   \tab 	 Naive Bayes classificator (package  \bold{e1071})\cr
+\code{\link{lda}()}  \tab 	 Linear discriminant analysis (\bold{MASS})\cr
+\code{\link{qda}()}  \tab 	 Quadratic discriminant analysis (\bold{MASS})\cr
+\code{logit()}  \tab 	 Logistic Regression model \code{\link{glm}}, family \code{binomial(logit)}(\bold{base})\cr
+\code{\link{multinom}()}  \tab 	 Multinomial Regression model (\bold{nnet})\cr
+ \code{\link[MASS]{polr}()}  \tab 	 Proportional odds model (\bold{MASS})\cr
+\code{\link{rpart}()}  \tab 	 Regression and classification trees (\bold{rpart})\cr
+\code{\link[nnet]{nnet}()}  \tab 	 Neuronal networks (\bold{nnet})\cr
+\code{\link[randomForest]{randomForest}()}   \tab 	 Random forests (\bold{randomForest})\cr
+\code{\link[C50]{C5.0}()}   \tab 	 C5.0 tree (\bold{C50})\cr
+\code{\link[e1071]{svm}()}   \tab 	 Support vector machines (\bold{e1071})\cr
+\code{\link[naivebayes]{naive_bayes}()}   \tab 	 Naive Bayes classificator (\bold{naivebayes})\cr
 \code{\link{LogitBoost}()}  \tab 	 Logit boost (using decision
-  stumps as weak learners)\cr
-\cr\cr\cr \bold{Other interfaced functions}:\tab\cr
-\code{\link[class]{knn}()}  \tab 	 k nearest neighbours (package  \bold{class})\cr
-\code{\link[class]{SOM}()}  \tab 	 Self organizing maps (package  \bold{class})\cr
+  stumps as weak learners) (\bold{ModTools})\cr
+
+% maybe later down the road
+%   \cr\cr\cr \bold{Other interfaced functions}:\tab\cr
+%   \code{\link[class]{knn}()}  \tab 	 k nearest neighbours (package  \bold{class})\cr
+%   \code{\link[class]{SOM}()}  \tab 	 Self organizing maps (package  \bold{class})\cr
+
 % \link{BestTree}  \tab 	 Variable importance for many models\cr
 % \link{PlotHistLeaf}  \tab 	 Tuning for many models\cr
 % \link{PlotTree}  \tab 	 Confusion matrix for classification tasks\cr
@@ -62,13 +64,24 @@ ModTools comprises interfaces to the following models: \cr
 % \link{Rules}  \tab 	 Variable importance for many models\cr
 % \link{TreeDepth}  \tab 	 Variable importance for many models\cr
 \cr\cr\cr \bold{Preprocess}:\tab\cr
-\code{\link{SplitTrainTest}()}  \tab 	Splits a data frame or index vector in train an test sample\cr
+\code{\link{SplitTrainTest}()}  \tab 	Splits a data frame or index vector into a training and a test sample\cr
+\code{\link{OverSample}()}  \tab Get balanced datasets by sampling with replacement.\cr
+
+\cr\cr\cr \bold{Manipulating \code{rpart} objects}:\tab\cr
+\code{\link{CP}()}  \tab Extract and plot complexity table of an rpart tree.\cr
+\code{\link{Node}()}  \tab Accessor to the most important properties of a node, being a split or a leaf.\cr
+\code{\link{Rules}()}  \tab Extract the decision rules from top to the end node of an rpart tree.\cr
+\code{\link{LeafRates}()}  \tab Returns the misclassification rates in all end nodes.\cr
+
 \cr\cr\cr \bold{Prediction and Validation}:\tab\cr
+\code{\link{Response}()}  \tab Extract the response variable of any model.\cr
 \code{\link{predict}()}  \tab 	 Consistent predict for \code{FitMod} models\cr
 \code{\link{VarImp}()}  \tab 	 Variable importance for most \code{FitMod} models\cr
 \code{\link{ROC}()}  \tab ROC curves for all dichotomous classification \code{FitMod} models	 \cr
+\code{\link{BestCut}()}  \tab 	Find the optimal cut for a classification based on the ROC curve.\cr
+\code{\link{PlotLift}()}  \tab Produces a lift chart for a binary classification model	 \cr
 \code{\link{TModC}()}  \tab Aggregated results for multiple \code{FitMod} classification models \cr
-%\code{\link{Tune}}  \tab Tuning approaches for \code{FitMod} models	 \cr
+\code{\link{Tune}()}  \tab Tuning approaches to find optimal parameters for \code{FitMod} classification models.	 \cr
 %\code{\link{CV}}  \tab Crossvalidating approaches for \code{FitMod} models	 \cr
 \cr\cr\cr
 \bold{Tests}:	\tab\cr
@@ -76,18 +89,16 @@ ModTools comprises interfaces to the following models: \cr
 %\code{\link{CoefTest}}  \tab 	 Coefficient test\cr
 }
 
-We might want to add support later down the road for:
-mixed models, gam, mars, lasso\cr
-ART Adaptive Resonance Theory cluster, association rules, multidimensional scaling
-
-preprocess:
-1. Check for near zero variance predictors and flag as near zero if:
-* the percentage of unique values is less than 20
-* the ratio of the most frequent to the second most frequent value is greater than 20,
-
-transformations, retransformation: rcs - restricted cubic splines smearingEstimator
-imputation: ... ? knnImputation)
-
+%We might want to add support later down the road for:
+%mixed models, gam, mars, lasso\cr
+%ART Adaptive Resonance Theory cluster, association rules, multidimensional scaling
+%
+%preprocess:
+%1. Check for near zero variance predictors and flag as near zero if:
+%* the percentage of unique values is less than 20
+%* the ratio of the most frequent to the second most frequent value is greater than 20,
+%
+%transformations, retransformation: rcs - restricted cubic splines smearingEstimator
 }
 
 \author{
@@ -96,17 +107,10 @@ Helsana Versicherungen AG, Health Sciences, Zurich\cr
 HWZ University of Applied Sciences in Business Administration Zurich.\cr
 
 Includes R source code and/or documentation previously published by (in alphabetical order): \cr
-
-Bernhard Compton, Ulrike Groemping, Max Kuhn, Werner A. Stahel
-Michal Majka, <michalmajka@hotmail.com>
-Jarek Tuszynski (SAIC) <jaroslaw.w.tuszynski@saic.com>
-Achim Zeileis <Achim.Zeileis@R-project.org>
-
-Special thanks go to Beat Bruengger for their valuable contributions and testing.
+Bernhard Compton, Max Kuhn, Michal Majka, Dan Putler, Jarek Tuszynski, Robin Xavier, Achim Zeileis
 
 The good things come from all these guys, any problems are likely due to my tweaking.
 Thank you all! \cr
-
 
 Maintainer: Andri Signorell <andri@signorell.net>
 
@@ -213,7 +217,7 @@ r.rf <- FitMod(mdiab, data=d.pim$train, fitfn="randomForest")
 r.svm <- FitMod(mdiab, data=d.pim$train, fitfn="svm")
 r.c5 <- FitMod(mdiab, data=d.pim$train, fitfn="C5.0")
 r.nn <- FitMod(mdiab, data=d.pim$train, fitfn="nnet")
-r.nb <- FitMod(mdiab, data=d.pim$train, fitfn="naiveBayes")
+r.nb <- FitMod(mdiab, data=d.pim$train, fitfn="naive_bayes")
 r.lda <- FitMod(mdiab, data=d.pim$train, fitfn="lda")
 r.qda <- FitMod(mdiab, data=d.pim$train, fitfn="qda")
 r.lb <- FitMod(mdiab, data=d.pim$train, fitfn="lb")
@@ -225,9 +229,9 @@ mods <- list(glm=r.glm, rp=r.rp, rf=r.rf, svm=r.svm, c5=r.c5
 plot(r.rp, box.palette = as.list(Pal("Helsana", alpha = 0.5)))
 
 # Insample accuracy ...
-TModC(mods, ord="a")
+TModC(mods, ord="auc")
 # ... is substantially different from the out-of-bag:
-TModC(mods, newdata=d.pim$test, reference=d.pim$test$diabetes, ord="b")
+TModC(mods, newdata=d.pim$test, reference=d.pim$test$diabetes, ord="bs")
 # C5 and SVM turn out to be show-offs! They overfit quite ordinary
 # whereas randomforest and logit keep their promises. ...
 
@@ -246,7 +250,7 @@ r.svm <- FitMod(mglass, data=d.gl$train, fitfn="svm")
 r.c5 <- FitMod(mglass, data=d.gl$train, fitfn="C5.0")
 set.seed(1984)
 r.nn <- FitMod(mglass, data=d.gl$train, fitfn="nnet")
-r.nbay <- FitMod(mglass, data=d.gl$train, fitfn="naiveBayes")
+r.nbay <- FitMod(mglass, data=d.gl$train, fitfn="naive_bayes")
 r.lda <- FitMod(mglass, data=d.gl$train, fitfn="lda")
 # r.qda <- FitMod(mglass, data=d.glass, fitfn="qda")
 r.lb <- FitMod(mglass, data=d.gl$train, fitfn="lb")

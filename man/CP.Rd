@@ -14,7 +14,7 @@ CP(x, ...)
 
 \method{print}{CP}(x, digits = getOption("digits") - 2L, ...)
 \method{plot}{CP}(x, minline = TRUE, lty = 3, col = 1,
-    upper = c("size", "splits", "none"), ...)
+     upper = c("size", "splits", "none"), ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -56,8 +56,7 @@ Tobit(formula, left = 0, right = Inf, dist = "gaussian",
   \code{\link[survival]{survreg}}, e.g., \code{Surv(ifelse(y <= 0, 0, y), y > 0, type = "left") ~ x1 + x2 + \dots}
   for the default settings.
 }
-\author{Achim Zeileis <andri@signorell.net>
-%%  ~~who you are~~
+\author{Achim Zeileis <Achim.Zeileis@R-project.org>
 }
 
 

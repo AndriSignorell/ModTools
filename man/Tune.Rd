@@ -4,40 +4,40 @@
 \title{Tune Classificators
 %%  ~~function to do ... ~~
 }
-\description{Several classificators all need their individual tuning parameters. This function uses a grid search approch for the decisive arguments or randomForest, rpart tree, neural networks, and so on.
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+\description{Some classifiers benefit more from adjusted parameters to a particular dataset than others. However, it is often not clear from the beginning how the parameters have to be determined.  What often only remains is a grid search when several parameters have to be found in combination. The present function uses a grid search approch for the decisive arguments (typically for a neural network, a random forest or a classification tree). However it's not restricted to these models, any model fulfilling weak interface standards could be provided.
 }
 \usage{
-Tune(x, scale = FALSE, sort = TRUE, type = NULL, ...)
+Tune(x, ..., testset = NULL, keepmod = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{the model to be tuned
-%%     ~~Describe \code{x} here~~
+  \item{x}{the model to be tuned, best (but not necessarily) trained with \code{\link{FitMod}}.
 }
-  \item{scale}{the scale
-%%     ~~Describe \code{scale} here~~
+  \item{\dots}{a list of parameters, containing the values to be used for a grid search.}
+
+\item{testset}{a testset containing all variables required in the model to be used for calculating independently the accuracy (normally a subset of the original dataset).}
+  \item{keepmod}{logical, defining if all fitted models should be returned in the result set. Default is \code{TRUE}. (Keep an eye on your RAM!)}
 }
-  \item{sort}{should the result be sorted?
-%%     ~~Describe \code{sort} here~~
+\details{The function creates a n-dimensional grid according to the given parameters and calculates the model with the combinations of all the parameters. The accuracy for the models are calculated insample and on a test set, if one has been provided.
+
+It makes sense to avoid overfitting to provide a test set to also be evaluated.
+A matrix with all combination of the values for the given parameters, sorted by accuracy, either by the accuracy achieved in the test set or the insample accuracy is returned.
 }
-  \item{type}{what kind of model type.
-%%     ~~Describe \code{type} here~~
-}
-  \item{\dots}{ar passed on
-%%     ~~Describe \code{\dots} here~~
-}
-}
-\details{The details.
-%%  ~~ If necessary, more details than the description above ~~
-}
-\value{the optimized parameters
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\author{Andri Signorell <andri@signorell.net>
-%%  ~~who you are~~
+\value{a matrix with all supplied parameters and a column \code{"acc"} and \code{"test_acc"} (if a test set has been provided) }
+
+\author{Andri Signorell <andri@signorell.net>}
+
+
+\examples{
+d.pim <- SplitTrainTest(d.pima, p = 0.2)
+mdiab <- formula(diabetes ~ pregnant + glucose + pressure + triceps
+                 + insulin + mass + pedigree + age)
+
+# tune a neural network for size and decay
+r.nn <- FitMod(mdiab, data=d.pim$train, fitfn="nnet")
+(tu <- Tune(r.nn, size=12:17, decay = 10^(-4:-1), testset=d.pim$test))
+
+# tune a random forest
+r.rf <- FitMod(mdiab, data=d.pim$train, fitfn="randomForest")
+(tu <- Tune(r.rf, mtry=seq(2, 20, 2), testset=d.pim$test))
 }

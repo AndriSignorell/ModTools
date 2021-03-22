@@ -5,7 +5,7 @@
 \title{Build a ROC curve
 %%  ~~function to do ... ~~
 }
-\description{This is a wrapper to the main function of the pROC package.
+\description{This is a wrapper to the main function \code{roc} of the \pkg{pROC} package (by Xavier Robin).
 It builds a ROC curve and returns a "roc" object, a list of class "roc".
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
@@ -20,19 +20,25 @@ ROC(x, resp = NULL, ...)
 %%     ~~Describe \code{\dots} here~~
 }
 }
-\value{Some values
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+
+\details{
+Partial ROC is calculated following Peterson et al.
+(2008; \url{http://dx.doi.org/10.1016/j.ecolmodel.2007.11.008}). This function is a modification
+of the PartialROC funcion, available at \url{https://github.com/narayanibarve/ENMGadgets}.
+}
+
+\value{
+A data.frame containing the AUC values and AUC ratios calculated for each iteration.
 }
 \seealso{\code{\link[pROC]{pROC}}}
 \author{Andri Signorell <andri@signorell.net>
 %%  ~~who you are~~
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\references{
+Peterson, A.T. et al. (2008) Rethinking receiver operating characteristic analysis applications in ecological niche modeling. Ecol. Modell., 213, 63-72.
+}%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \examples{
 r.glm <- FitMod(diabetes ~ ., data = d.pima, fitfn="logit")
