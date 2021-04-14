@@ -5,8 +5,13 @@ Version: 0.8
 Date: 2021-03-29
 Authors@R: c(
   person("Andri", "Signorell", email = "andri@signorell.net", role = c("aut", "cre")),
-  person("Jinghao"     , "Xue",        role = c("ctb")),
-  person("David"       , "Meyer",      role = c("ctb")))
+  person("Bernhard" , "Compton",   role = c("ctb")),
+  person("Max"      , "Kuhn",      role = c("ctb")),
+  person("Michal"   , "Majka",     role = c("ctb")),
+  person("Dan"      , "Putler",    role = c("ctb")),
+  person("Jarek"    , "Tuszynski", role = c("ctb")),
+  person("Robin"    , "Xavier",    role = c("ctb")),
+  person("Achim"    , "Zeileis",   role = c("ctb")))
 Description: Collection of tools for regression and classification tasks.
 Depends: DescTools, MASS, nnet, survival, R (>= 3.5.0)
 License: GPL (>= 2)

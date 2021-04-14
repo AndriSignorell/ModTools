@@ -10,6 +10,7 @@ Tune.default <- function(x, ..., testset=NULL, keepmod=TRUE){
   mpar <- list(...)
 
   tpar <- do.call(expand.grid, mpar)
+  tpar[sapply(mpar, is.character)] <- lapply(tpar[sapply(mpar, is.character)], as.character)
 
   lst <- list()
   for(i in 1:nrow(tpar)){
@@ -28,11 +29,9 @@ Tune.default <- function(x, ..., testset=NULL, keepmod=TRUE){
   }
 
   if(keepmod)
-    res <- list(modpar=Sort(tpar, ncol(tpar), decreasing = TRUE),
-                mods=lst)
+    res <- list(modpar=tpar, mods=lst)
   else
-    res <- list(modpar=Sort(tpar, ncol(tpar), decreasing = TRUE),
-                mods=NULL)
+    res <- list(modpar=tpar, mods=NULL)
 
   class(res) <- "Tune"
   return(res)
@@ -44,7 +43,10 @@ Tune.default <- function(x, ..., testset=NULL, keepmod=TRUE){
 
 print.Tune <- function(x, digits = 4, ...) {
   # print as data.frame if something was changed
-  print(round(data.frame(x$modpar), digits=digits))
+  xp <- data.frame(x$modpar)
+  xp[sapply(xp, is.numeric)] <- Format(xp[sapply(xp, is.numeric)], digits=digits)
+  xp <- Sort(xp, ncol(xp), decreasing = TRUE)
+  print(xp)
 }
 
 

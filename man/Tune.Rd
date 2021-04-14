@@ -40,4 +40,16 @@ r.nn <- FitMod(mdiab, data=d.pim$train, fitfn="nnet")
 # tune a random forest
 r.rf <- FitMod(mdiab, data=d.pim$train, fitfn="randomForest")
 (tu <- Tune(r.rf, mtry=seq(2, 20, 2), testset=d.pim$test))
+
+# tune a SVM model
+r.svm <- FitMod(mdiab, data=d.pim$train, fitfn="svm")
+tu <- Tune(r.svm,
+           kernel=c("radial", "sigmoid"),
+           cost=c(0.1,1,10,100,1000),
+           gamma=c(0.5,1,2,3,4), testset=d.pim$test)
+
+# let's get some more quality measures
+tu$modpar$Sens <- sapply(tu$mods, Sens)     # Sensitivity
+tu$modpar$Spec <- sapply(tu$mods, Spec)     # Specificity
+Sort(tu$modpar, ord="test_acc", decreasing=TRUE)
 }

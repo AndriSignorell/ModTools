@@ -11,8 +11,8 @@
 \title{Variable Importance for Regression and Classification Models}
 
 \description{
-A generic method for calculating variable importance for objects produced by
-\code{FitMod}.
+Variable importance is in general not a well defined concept. There is no theoretically defined variable importance metric. Nevertheless, there are some approaches that have been established in practice for some regression and classification algorithms.
+This function provides an interface for calculating variable importance for some of the models produced by \code{FitMod}, comprising linear models, classification trees, random forests, C5 trees and neural networks. The intention here is to provide reasonably homogeneous output and plot routines.
 }
 
 \usage{
@@ -67,7 +67,7 @@ option \code{metric="usage"}.
 \bold{SVM, GLM, Multinom}: There are no implementations for these models so far.
 }
 
-\author{Max Kuhn, tweaks by Andri Signorell <andri@signorell.net>}
+\author{Andri Signorell <andri@signorell.net>}
 
 
 \references{Quinlan, J. (1992). Learning with continuous classes. Proceedings of

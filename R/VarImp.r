@@ -136,12 +136,30 @@ VarImp.lm <- function(x, scale = FALSE, sort=TRUE, type = NULL, ...)  {
 
 }
 
-.VarImp.randomForest <- function(x, scale = TRUE, sort = TRUE, ...){
-  res <- as.matrix(importance(x, ...))
-  colnames(res) <- "varimp"
-  if(sort) res <- Sort(res, decreasing=TRUE)
+
+
+.VarImp.randomForest <- function(x, scale = TRUE, sort = TRUE,
+                                 type = c("impurity","accuracy", "permutation"), ...){
+
+  # type in randomForest: (1=mean decrease in accuracy, 2=mean decrease in node impurity)
+  # permutation in permimp
+
+  type <- match.arg(type)
+
+  if(type %in% c("accuracy", "impurity")){
+    res <- as.matrix(importance(x, type=match(type, c("accuracy", "impurity")), ...))
+    colnames(res) <- "varimp"
+    if(sort) res <- Sort(res, decreasing=TRUE)
+
+  # } else if(type == "permutation"){
+  #   res <- permimp::permimp(x, do_check = FALSE, ...)
+
+  }
+
+  return(res)
 
 }
+
 
 
 .VarImp.C5.0 <- function(x, scale = TRUE, sort = TRUE, ...) {

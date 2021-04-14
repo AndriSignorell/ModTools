@@ -89,7 +89,7 @@ LogitBoost(x, ...)
    \item \code{logitboost} function from \pkg{logitboost} library (not in CRAN
    or BioConductor but can be found at
    \url{http://stat.ethz.ch/~dettling/boosting.html}) is very similar but much
-   slower on very large datasets. It also perform optional cross-validation.
+   slower on very large datasets. It also performs optional cross-validation.
  }
 }
 

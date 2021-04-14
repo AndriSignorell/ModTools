@@ -8,7 +8,7 @@
 
 \title{Wrapper for Several Model Functions
 }
-\description{Popular implementations of algorithms are characterized by partly unconventional implementations of the operating standards in R. For example, the function \code{e1057::SVM()} returns the predicted values as attributes! \cr
+\description{Popular implementations of algorithms are characterized by partly unconventional implementations of the operating standards in R. For example, the function \code{e1071::SVM()} returns the predicted values as attributes! \cr
 \code{FitMod()} is designed as a wrapping function to offer a consistent interface for a selection of most often used classification and regression models.
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
