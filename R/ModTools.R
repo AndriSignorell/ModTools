@@ -1423,7 +1423,7 @@ RobSummary <- function(mod, conf.level=0.95, type="HC0"){
   sterr <- sqrt(diag(vcovHC(mod, type=type)))
   alpha <- 1 - (1-conf.level)/2
 
-  if(class(mod) == "glm") {
+  if(inherits(mod, "glm")) {
     res <- cbind(est= coef(mod),
                  lci = coef(mod) - qnorm(alpha) * sterr,
                  uci = coef(mod) + qnorm(alpha) * sterr,
@@ -1431,7 +1431,7 @@ RobSummary <- function(mod, conf.level=0.95, type="HC0"){
                  zval = coef(mod)/sterr,
                  pval = 2 * pnorm(abs(coef(mod)/sterr), lower.tail=FALSE))
 
-  } else if(class(mod) =="lm") {
+  } else if(inherits(mod, "lm")) {
 
     res <- cbind(est= coef(mod),
                  lci = coef(mod) - qt(alpha, df = mod$df) * sterr,
