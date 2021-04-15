@@ -3,7 +3,7 @@ export(
   "ROC", "Response", "VarImp",
   "SplitTrainTest", "LogitBoost","BreuschPaganTest", "TModC",
   "Rules", "LeafRates", "CP", "Node", "FitMod",
-  "PlotLift", "Tune", "RefLevel","BestCut","OverSample","UnderSample"
+  "PlotLift", "Tune", "RefLevel","BestCut","OverSample","UnderSample","RobSummary"
 )
 
 
@@ -12,7 +12,7 @@ importFrom("stats", "predict", "vcov", "model.frame", "model.response", "na.pass
            ".getXlevels", "coef", "lm.fit", "model.matrix","pchisq", "terms", "C", "na.omit",
            "cov2cor", "formula", "model.weights", "naprint",
            "printCoefmat", "residuals", "symnum", "update.formula",
-           "df.residual", "pnorm", "pt", "anova", "as.formula", "confint", "drop.scope",
+           "df.residual", "pnorm", "pt", "qt","anova", "as.formula", "confint", "drop.scope",
            "drop1", "ftable", "glm", "model.extract", "reshape",
            "update", "AIC", "coefficients", "confint.default",
            "deviance", "qnorm", "runif", "dnorm", "sd")
@@ -46,6 +46,8 @@ importFrom("robustbase", "lmrob")
 importFrom("NeuralNetTools", "plotnet")
 importFrom("car", "Anova")
 importFrom("naivebayes", "naive_bayes")
+
+importFrom("sandwich", "vcovHC")
 
 
 
