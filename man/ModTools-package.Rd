@@ -20,9 +20,8 @@ As always: Feedback, feature requests, bugreports and other suggestions are welc
 
 
 \details{
-ModTools comprises interfaces to the following models:
+The \code{ModTools::\link{FitMod}())} funcktion comprises interfaces to the following models:
 \tabular{ll}{
-\cr\cr
 \bold{Regression}:\tab\cr
  \code{\link{lm}()}  \tab 	 Linear model OLS (\bold{base})\cr
  \code{\link[robustbase]{lmrob}()}  \tab 	 Robust linear model (\bold{robustbase})\cr
@@ -82,6 +81,7 @@ ModTools comprises interfaces to the following models:
 \code{\link{PlotLift}()}  \tab Produces a lift chart for a binary classification model	 \cr
 \code{\link{TModC}()}  \tab Aggregated results for multiple \code{FitMod} classification models \cr
 \code{\link{Tune}()}  \tab Tuning approaches to find optimal parameters for \code{FitMod} classification models.	 \cr
+\code{\link{RobSummary}()}  \tab Robust summary for GLM models (poisson).\cr
 %\code{\link{CV}}  \tab Crossvalidating approaches for \code{FitMod} models	 \cr
 \cr\cr\cr
 \bold{Tests}:	\tab\cr
