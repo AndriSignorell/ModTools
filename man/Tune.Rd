@@ -32,7 +32,7 @@ A matrix with all combination of the values for the given parameters, sorted by 
 d.pim <- SplitTrainTest(d.pima, p = 0.2)
 mdiab <- formula(diabetes ~ pregnant + glucose + pressure + triceps
                  + insulin + mass + pedigree + age)
-
+\donttest{
 # tune a neural network for size and decay
 r.nn <- FitMod(mdiab, data=d.pim$train, fitfn="nnet")
 (tu <- Tune(r.nn, size=12:17, decay = 10^(-4:-1), testset=d.pim$test))
@@ -43,6 +43,7 @@ r.rf <- FitMod(mdiab, data=d.pim$train, fitfn="randomForest")
 
 # tune a SVM model
 r.svm <- FitMod(mdiab, data=d.pim$train, fitfn="svm")
+
 tu <- Tune(r.svm,
            kernel=c("radial", "sigmoid"),
            cost=c(0.1,1,10,100,1000),
@@ -52,4 +53,5 @@ tu <- Tune(r.svm,
 tu$modpar$Sens <- sapply(tu$mods, Sens)     # Sensitivity
 tu$modpar$Spec <- sapply(tu$mods, Spec)     # Specificity
 Sort(tu$modpar, ord="test_acc", decreasing=TRUE)
+}
 }

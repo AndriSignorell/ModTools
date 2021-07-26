@@ -5,8 +5,7 @@
 \title{Build a ROC curve
 %%  ~~function to do ... ~~
 }
-\description{This is a wrapper to the main function \code{roc} of the \pkg{pROC} package (by Xavier Robin).
-It builds a ROC curve and returns a "roc" object, a list of class "roc".
+\description{This is a wrapper to the main function \code{\link[pROC]{pROC}} of the \pkg{pROC} package (by Xavier Robin et al.). It builds a ROC curve and returns a \code{"roc"} object, a list of class \code{"roc"}.
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -23,7 +22,7 @@ ROC(x, resp = NULL, ...)
 
 \details{
 Partial ROC is calculated following Peterson et al.
-(2008; \url{http://dx.doi.org/10.1016/j.ecolmodel.2007.11.008}). This function is a modification
+(2008; \doi{10.1016/j.ecolmodel.2007.11.008}). This function is a modification
 of the PartialROC funcion, available at \url{https://github.com/narayanibarve/ENMGadgets}.
 }
 

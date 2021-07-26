@@ -2,7 +2,6 @@
 ## Demo file for binomial models; start with 'demo(bin_mod)'
 ## -----------------------------------------------------------------------------------
 
-set.seed(453)
 d.pim <- SplitTrainTest(d.pima, p = 0.2)
 mdiab <- formula(diabetes ~ pregnant + glucose + pressure + triceps
                  + insulin + mass + pedigree + age)

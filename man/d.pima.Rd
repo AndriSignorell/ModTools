@@ -29,8 +29,6 @@ data(d.pima2)
 \details{\code{d.pima2} is the same dataset as \code{d.pima} with the only change, that invalid 0-values are replaced by \code{NA}s.}
 \note{This dataset has been borrowed from Julian Faraway's package:\cr \emph{faraway}: Functions and datasets for books by Julian Faraway, 2015}
 \source{ The data may
-be obtained from
-UCI Repository of machine learning databases at
-\url{http://www.ics.uci.edu/\~mlearn/MLRepository.html}
+be obtained from the package \code{MASS}.
 }
 \keyword{datasets}

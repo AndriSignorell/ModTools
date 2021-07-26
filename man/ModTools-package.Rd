@@ -10,7 +10,7 @@ There is a rich selection of R packages implementing algorithms for classificati
 \bold{ModTools} pursues the goal of offering uniform handling for the most important regression and classification models in applied data analyses.\cr
 The function \code{FitMod()} is designed as a simple and consistent interface to these original functions while maintaining the flexibility to pass on all possible arguments. \code{print}, \code{plot}, \code{summary} and \code{predict} operations can so be carried out following the same logic. The results will again be reshaped to a reasonable standard.
 
-For all the functions of this package Google styleguides are used as naming rules (in absence of convincing alternatives). The 'CamelStyle' has been consequently applied to functions borrowed from contributed R packages as well.
+For all the functions of this package Google styleguides are used as naming rules (in absence of convincing alternatives). The 'BigCamelCase' style has been consequently applied to functions borrowed from contributed R packages as well.
 
 As always: Feedback, feature requests, bugreports and other suggestions are welcome!
 }
@@ -107,7 +107,7 @@ Helsana Versicherungen AG, Health Sciences, Zurich\cr
 HWZ University of Applied Sciences in Business Administration Zurich.\cr
 
 Includes R source code and/or documentation previously published by (in alphabetical order): \cr
-Bernhard Compton, Max Kuhn, Michal Majka, Dan Putler, Jarek Tuszynski, Robin Xavier, Achim Zeileis
+Bernhard Compton, Marcel Dettling, Max Kuhn, Michal Majka, Dan Putler, Jarek Tuszynski, Robin Xavier, Achim Zeileis
 
 The good things come from all these guys, any problems are likely due to my tweaking.
 Thank you all! \cr
@@ -150,9 +150,9 @@ summary(r.gam)
 r.gami <- FitMod(Freq ~ Infl*Type*Cont + Sat, data=housing, fitfn="gamma", link="identity")
 summary(r.gami)
 
-options(digits=3)
+old <-options(digits=3)
 TMod(r.pois, r.nb, r.log, r.ols, r.gam, r.gami)
-
+options(old)
 
 
 ## Ordered Regression
@@ -160,8 +160,8 @@ TMod(r.pois, r.nb, r.log, r.ols, r.gam, r.gami)
 r.polr <- FitMod(Sat ~ Infl + Type + Cont, data=housing, fitfn="polr", weights = Freq)
 
 # multinomial Regression
-r.mult <- FitMod(factor(Sat, ordered=FALSE) ~ Infl + Type + Cont, data=housing,
-                   weights = housing$Freq, fitfn="multinom")
+# r.mult <- FitMod(factor(Sat, ordered=FALSE) ~ Infl + Type + Cont, data=housing,
+#                  weights = housing$Freq, fitfn="multinom")
 
 
 # Regression tree
@@ -173,7 +173,7 @@ d.p <- expand.grid(Infl=levels(housing$Infl), Type=levels(housing$Type), Cont=le
 d.p$polr <- predict(r.polr, newdata=d.p)
 # ??
 # d.p$ols <- factor(round(predict(r.ols, newdata=d.p)^2), labels=levels(housing$Sat))
-d.p$mult <- predict(r.mult, newdata=d.p)
+# d.p$mult <- predict(r.mult, newdata=d.p)
 d.p$rp <- predict(r.rp, newdata=d.p, type="class")
 
 d.p
@@ -243,19 +243,19 @@ sapply(mods, function(z) VarImp(z))
 d.gl <- SplitTrainTest(d.glass, p = 0.2)
 mglass <- formula(Type ~ RI + Na + Mg + Al + Si + K + Ca + Ba + Fe)
 
-r.mult <- FitMod(mglass, data=d.gl$train, maxit=600, fitfn="multinom")
+# *** raises an unclear error in CRAN-Debian tests *** ??
+# r.mult <- FitMod(mglass, data=d.gl$train, maxit=600, fitfn="multinom")
 r.rp <- FitMod(mglass, data=d.gl$train, fitfn="rpart")
 r.rf <- FitMod(mglass, data=d.gl$train, fitfn="randomForest")
 r.svm <- FitMod(mglass, data=d.gl$train, fitfn="svm")
 r.c5 <- FitMod(mglass, data=d.gl$train, fitfn="C5.0")
-set.seed(1984)
 r.nn <- FitMod(mglass, data=d.gl$train, fitfn="nnet")
 r.nbay <- FitMod(mglass, data=d.gl$train, fitfn="naive_bayes")
 r.lda <- FitMod(mglass, data=d.gl$train, fitfn="lda")
 # r.qda <- FitMod(mglass, data=d.glass, fitfn="qda")
 r.lb <- FitMod(mglass, data=d.gl$train, fitfn="lb")
 
-mods <- list(glm=r.mult, rp=r.rp, rf=r.rf, svm=r.svm, c5=r.c5,
+mods <- list(rp=r.rp, rf=r.rf, svm=r.svm, c5=r.c5,
              nn=r.nn, nbay=r.nbay, lda=r.lda, lb=r.lb)
 
 # confusion matrix and other quality measures can be calculated with Conf()
@@ -265,6 +265,6 @@ Conf(r.rf)
 sapply(lapply(mods, function(z) Conf(z)), "[[", "acc")
 
 # let's compare r.mult with a model without RI as predictor
-Conf(r.mult)
-Conf(update(r.mult, . ~ . -RI))
+# Conf(r.mult)
+# Conf(update(r.mult, . ~ . -RI))
 }

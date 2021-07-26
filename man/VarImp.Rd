@@ -11,8 +11,8 @@
 \title{Variable Importance for Regression and Classification Models}
 
 \description{
-Variable importance is in general not a well defined concept. There is no theoretically defined variable importance metric. Nevertheless, there are some approaches that have been established in practice for some regression and classification algorithms.
-This function provides an interface for calculating variable importance for some of the models produced by \code{FitMod}, comprising linear models, classification trees, random forests, C5 trees and neural networks. The intention here is to provide reasonably homogeneous output and plot routines.
+Variable importance is an expression of the desire to know how important a variable is within a group of predictors for a particular model. But in general it is not a well defined concept, say there is no theoretically defined variable importance metric. Nevertheless, there are some approaches that have been established in practice for some regression and classification algorithms.
+The present function provides an interface for calculating variable importance for some of the models produced by \code{FitMod}, comprising linear models, classification trees, random forests, C5 trees and neural networks. The intention here is to provide reasonably homogeneous output and plot routines.
 }
 
 \usage{
@@ -46,11 +46,11 @@ VarImp(x, scale = FALSE, sort = TRUE, ...)
  }
 
 \details{
- \bold{Linear Models}: For linear models there's a fine package \pkg{relaimpo} available on CRAN containing several interesting approaches for quantifying the variable importance. See the original documentation.
+ \bold{Linear Models}:  \verb{   } For linear models there's a fine package \pkg{relaimpo} available on CRAN containing several interesting approaches for quantifying the variable importance. See the original documentation.
 
- \bold{rpart}, \bold{Random Forest}: \code{VarImp.randomForest} are wrappers around the importance functions from the \pkg{rpart} or \pkg{randomForest} prackages, respectively.
+ \bold{rpart}, \bold{Random Forest}:  \verb{   } \code{VarImp.rpart} and \code{VarImp.randomForest} are wrappers around the importance functions from the \pkg{rpart} or \pkg{randomForest} packages, respectively.
 
-  \bold{C5.0}: C5.0 measures predictor importance by determining the
+  \bold{C5.0}:  \verb{   } C5.0 measures predictor importance by determining the
 percentage of training set samples that fall into all the terminal
 nodes after the split. For example, the predictor in the first split
 automatically has an importance measurement of 100 percent since all
@@ -62,9 +62,9 @@ versions of the model. The underlying function can also return the
 number of times each predictor was involved in a split by using the
 option \code{metric="usage"}.
 
-\bold{Neural Networks}: The method used here is Garson weights.
+\bold{Neural Networks}:  \verb{   } The method used here is "Garson weights".
 
-\bold{SVM, GLM, Multinom}: There are no implementations for these models so far.
+\bold{SVM, GLM, Multinom}:  \verb{   } There are no implementations for these models so far.
 }
 
 \author{Andri Signorell <andri@signorell.net>}

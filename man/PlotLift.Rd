@@ -51,7 +51,6 @@ their estimated likelihood of a favorable response.}
 \author{original Dan Putler, tweaks Andri Signorell <andri@signorell.net>}
 
 \examples{
-set.seed(1972)
 d.pim <- SplitTrainTest(d.pima, p = 0.2)
 
 r.rp <- FitMod(diabetes ~ pregnant + glucose + pressure + triceps
@@ -65,10 +64,12 @@ r.glm <- FitMod(diabetes ~ pregnant + glucose + pressure + triceps
 r.nn <- FitMod(diabetes ~ pregnant + glucose + pressure + triceps
                 + insulin + mass + pedigree + age
                 , data=d.pim$train, fitfn="nnet")
-par(mfrow=c(1,2))
+
+oldpar <- par(mfrow=c(1,2))
 PlotLift(c("r.rp", "r.glm", "r.nn"), data = d.pim$train,
               targLevel = "pos", trueResp =0.34, type = "cumulative")
 PlotLift(c("r.rp", "r.glm", "r.nn"), data = d.pim$train,
               targLevel = "pos", trueResp =0.34, type = "incremental")
+par(oldpar)
 }
 \keyword{misc}

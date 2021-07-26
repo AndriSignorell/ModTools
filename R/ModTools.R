@@ -91,7 +91,7 @@
 # , "tune"
 
 
-
+Tobit <- AER::tobit
 
 
 SplitTrainTest <- function(x, p=0.1, seed=NULL, logical=FALSE){
@@ -528,7 +528,7 @@ ROC <- function (x, resp = NULL, ...) {
 
 
 BestCut <- function(x, method=c("youden", "closest.topleft")){
-  pROC::coords(roc=x, x="best", best.method=c("youden", "closest.topleft"),
+  pROC::coords(roc=x, x="best", best.method=method,
                transpose=TRUE)
 }
 
@@ -1284,7 +1284,7 @@ OddsRatio.polr <- function(x, conf.level=NULL, digits=3, ...) {
 LowVar <- function(x, na.rm=FALSE, uvalp = 0.2, freq = 20, method=c("both", "unique", "freq")) {
 
   # The functionality is realized in two main steps:
-  # 1. Check for near zero variance predictors and ﬂag as near zero if:
+  # 1. Check for near zero variance predictors and flag as near zero if:
   #   (a) the percentage of unique values is less than 20
   #   (b) the ratio of the most frequent to the second most frequent value is greater than 20,
   # 2. Check for susceptibility to multicollinearity

@@ -11,7 +11,8 @@ PlotLift <- function(modelList, data, targLevel, trueResp, type="cumulative",
   if(type != "cumulative" & type != "incremental") {
     stop("An improper lift chart type is specified.")
   }
-  set.seed(1)
+  # not needed at all here... 17.5.2021
+  # set.seed(1)
   data <- data[order(runif(nrow(data))), ]
   yvar1 <- rep(NA, length(modelList))
   modAvail <- rep(NA, length(modelList))

@@ -48,7 +48,7 @@ importFrom("car", "Anova")
 importFrom("naivebayes", "naive_bayes")
 
 importFrom("sandwich", "vcovHC")
-
+importFrom("AER", "tobit")
 
 
 S3method(Desc, rpart)
@@ -89,19 +89,6 @@ S3method(confint, ROC)
 S3method(Tune, default)
 S3method(print, Tune)
 
-
-## methods for class Tobit
-S3method("print", "Tobit")
-S3method("print", "summary.Tobit")
-S3method("summary", "Tobit")
-S3method("formula", "Tobit")
-S3method("update", "Tobit")
-S3method("model.frame", "Tobit")
-
-
-## methods for class survreg
-S3method("deviance", "survreg")
-S3method("fitted", "survreg")
 
 S3method(print, LeafRates)
 S3method(print, CP)
