@@ -2,10 +2,12 @@
 export(
   "ROC", "Response", "VarImp",
   "SplitTrainTest", "LogitBoost","BreuschPaganTest", "TModC",
-  "Rules", "LeafRates", "CP", "Node", "FitMod",
-  "PlotLift", "Tune", "RefLevel","BestCut","OverSample","UnderSample","RobSummary"
+  "Rules", "LeafRates", "CP", "Node", "FitMod", "CoeffDiffCI",
+  "PlotLift", "Tune", "RefLevel","BestCut","OverSample","UnderSample","RobSummary", "PredictCI",
+  "zeroinfl",
+  "BrierScore","Conf","Cstat","HosmerLemeshowTest","MAE","MAPE","ModSummary",
+  "MSE","NMAE","NMSE","PseudoR2","RMSE","Sens","SMAPE","Spec","StdCoef","TMod","VIF"
 )
-
 
 
 importFrom("stats", "predict", "vcov", "model.frame", "model.response", "na.pass",
@@ -15,24 +17,33 @@ importFrom("stats", "predict", "vcov", "model.frame", "model.response", "na.pass
            "df.residual", "pnorm", "pt", "qt","anova", "as.formula", "confint", "drop.scope",
            "drop1", "ftable", "glm", "model.extract", "reshape",
            "update", "AIC", "coefficients", "confint.default",
-           "deviance", "qnorm", "runif", "dnorm", "sd")
-importFrom("graphics", "dotchart", "grid", "plot", "par", "legend", "lines", "points")
+           "deviance", "qnorm", "runif", "dnorm", "sd",
+           "binomial", "delete.response", "dnbinom", "dpois",
+           "glm.fit", "lm.wfit", "logLik", "make.link", "optim",
+           "pnbinom", "poisson", "ppois", "quantile",
+           "BIC", "binom.test", "complete.cases",
+           "mcnemar.test", "nobs", "setNames", "weights", "xtabs")
+
+importFrom("graphics", "dotchart", "grid", "plot", "par", "legend", "lines",
+           "points", "mosaicplot")
 importFrom("grDevices", "palette")
-importFrom("methods", "slot")
-importFrom("utils", "capture.output", "head", "write.table")
+importFrom("methods", "slot", "slotNames")
+importFrom("utils", "capture.output", "head", "write.table", "tail")
 
 importFrom("nnet", "nnet", "multinom")
-importFrom("MASS","lda","qda","stepAIC", "polr","loglm")
+importFrom("MASS","glm.nb","lda","qda","stepAIC", "polr","loglm")
 
 importFrom("pROC","roc","auc","coords", "ci.coords")
 importFrom("randomForest", "randomForest","importance", "tuneRF")
-importFrom("DescTools","Unwhich", "Conf","Cstat","Sort","BrierScore","DoCall","Pal","OddsRatio",
-           "Format","SetAlpha","Desc", "ModSummary", "DescToolsOptions", "Fmt","IsDichotomous",
-           "PseudoR2", "SetNames", "Mode", "BoxedText","Append", "ColToOpaque", "Sample")
+importFrom("DescTools","Unwhich", "Sort","DoCall","Pal","OddsRatio",
+           "Format","SetAlpha","Desc", "DescToolsOptions", "Fmt","IsDichotomous",
+           "SetNames", "Mode", "BoxedText","Append", "ColToOpaque", "Sample")
 importFrom("C50","C5.0","C5imp")
 importFrom("e1071","svm")
 importFrom("rpart","rpart","path.rpart","printcp","plotcp")
-importFrom("pscl", "zeroinfl")
+
+# importFrom("pscl", "zeroinfl")
+
 importFrom("relaimpo", "calc.relimp")
 importFrom("rpart.plot", "rpart.plot")
 importFrom("lattice", "barchart","panel.rect","panel.text","panel.barchart")
@@ -51,6 +62,22 @@ importFrom("sandwich", "vcovHC")
 importFrom("AER", "tobit")
 
 
+
+## methods for class zeroinfl
+  S3method("print", "zeroinfl")
+  S3method("print", "summary.zeroinfl")
+  S3method("summary", "zeroinfl")
+  S3method("coef", "zeroinfl")
+  S3method("vcov", "zeroinfl")
+  S3method("logLik", "zeroinfl")
+  S3method("predict", "zeroinfl")
+  S3method("residuals", "zeroinfl")
+  S3method("fitted", "zeroinfl")
+#  S3method("predprob", "zeroinfl")
+  S3method("terms", "zeroinfl")
+  S3method("model.matrix", "zeroinfl")
+  S3method("extractAIC", "zeroinfl")
+
 S3method(Desc, rpart)
 
 S3method(summary, FitMod)
@@ -59,7 +86,7 @@ S3method(plot, FitMod)
 S3method(predict, FitMod)
 S3method(Conf, FitMod)
 S3method(Cstat, FitMod)
-S3method(BrierScore, FitMod)
+# S3method(BrierScore, FitMod)
 S3method(OddsRatio, FitMod)
 
 
@@ -70,8 +97,53 @@ S3method(VarImp, default)
 S3method(VarImp, lm)
 
 
+S3method(Conf, default)
+S3method(Conf, table)
+S3method(Conf, matrix)
+S3method(Conf, rpart)
+S3method(Conf, multinom)
+S3method(Conf, glm)
+S3method(Conf, randomForest)
+S3method(Conf, svm)
+S3method(Conf, regr)
+S3method(Conf, lda)
+S3method(Conf, qda)
+
+
+
 S3method(Conf, polr)
 S3method(OddsRatio, polr)
+
+
+
+S3method(Cstat, default)
+S3method(Cstat, glm)
+
+# S3method(BrierScore, default)
+# S3method(BrierScore, FitMod)
+# S3method(BrierScore, mult)
+
+S3method(MAE, default)
+S3method(MAE, lm)
+
+S3method(MAPE, default)
+S3method(MAPE, lm)
+
+S3method(SMAPE, default)
+S3method(SMAPE, lm)
+
+S3method(MSE, default)
+S3method(MSE, lm)
+
+S3method(RMSE, default)
+S3method(RMSE, lm)
+
+S3method(ModSummary, glm)
+S3method(ModSummary, lm)
+S3method(ModSummary, lmrob)
+S3method(ModSummary, OddsRatio)
+
+
 
 S3method(print, Rules)
 S3method(print, TModC)

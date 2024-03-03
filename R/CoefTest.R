@@ -210,3 +210,32 @@ print.CoefTest <- function(x, ...) {
 }
 
 
+
+
+# Confidence interval for the difference of two coefficients
+
+CoeffDiffCI <- function(x, coeff, conf.level=0.95,
+                        sides = c("two.sided","left","right")){
+
+  sides <- match.arg(sides, choices = c("two.sided","left","right"), several.ok = FALSE)
+  if(sides!="two.sided")
+    conf.level <- 1 - 2*(1-conf.level)
+
+  cc <- summary(x)$coef[coeff,]
+  d <- unname(diff(cc[, 1]))
+  sediff <- sqrt(sum(cc[, 2]^2) - 2*vcov(x)[coeff[1], coeff[2]])
+
+  a <- qt(p = (1 - conf.level)/2, df = x$df) * sediff
+  res <- c(diff = d, lwr.ci = d + a, upr.ci = d - a)
+
+  if(sides=="left")
+    res[3] <- Inf
+  else if(sides=="right")
+    res[2] <- -Inf
+
+  return(res)
+
+}
+
+
+

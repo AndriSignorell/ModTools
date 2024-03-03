@@ -1,8 +1,8 @@
 Package: ModTools
 Type: Package
 Title: Tools for Building Regression and Classification Models
-Version: 0.9.4
-Date: 2021-07-25
+Version: 0.9.7
+Date: 2024-03-25
 Encoding: UTF-8
 Authors@R: c(
   person("Andri", "Signorell", email = "andri@signorell.net", role = c("aut", "cre")),
@@ -23,6 +23,7 @@ Authors@R: c(
 Description: Collection of tools for regression and classification tasks. The package implements a consistent user interface to the most popular regression and classification algorithms, such as random forest, neural networks, C5 trees and support vector machines, and complements it with a handful of auxiliary functions, such as variable importance and a tuning function for the parameters.
 Depends: DescTools, MASS, nnet, survival, R (>= 3.5.0)
 License: GPL (>= 2)
-Imports: e1071, C50, rpart, randomForest, pROC, pscl, methods, relaimpo, rpart.plot, lattice, lmtest, car, robustbase, class, NeuralNetTools, naivebayes, sandwich, AER
+Suggests: VGAM
+Imports: e1071, C50, rpart, randomForest, pROC, methods, relaimpo, rpart.plot, lattice, lmtest, car, robustbase, class, NeuralNetTools, naivebayes, sandwich, AER
 LazyLoad: yes
 LazyData: yes

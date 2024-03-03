@@ -1,5 +1,30 @@
 
 
+ModTools 0.9.5 (2024-03-25)
+-----------------------------
+
+NEW FUNCTIONS ADDED:
+  * Following functions have been migrated from DescTools:
+    BrierScore(), Conf(), Cstat(), HosmerLemeshowTest(), MAE()
+    MAPE(), ModSummary(), MSE(), NMAE(), NMSE(), PseudoR2(),
+    RMSE(), Sens(), SMAPE(), Spec(), StdCoef(), TMod(), VIF()
+
+
+
+
+ModTools 0.9.5 (2024-01-25)
+-----------------------------
+
+NEW FUNCTIONS ADDED:
+  * CoeffDiffCI calculates a confidence interval for the difference of two
+    coefficients of a linear model
+  * PredictCI returns the confidence intervals for predictions
+    based on a logistic regression.
+  * zeroinfl() was taken over from pscl, which was in threat of being
+    archived on CRAN.
+
+
+
 ModTools 0.9.4 (2021-07-25)
 -----------------------------
 

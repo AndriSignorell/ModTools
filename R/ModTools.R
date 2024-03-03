@@ -473,6 +473,9 @@ SplitTrainTest <- function(x, p=0.1, seed=NULL, logical=FALSE){
   switch(type,
          "prob"={
            res <- attr(res, "probabilities")
+           if(object$nclasses == 2){
+             res <- res[, c(2, 1)]
+           }
          },
 
          "class"={
@@ -562,10 +565,10 @@ FitMod <- function(formula, data, ..., subset, na.action=na.pass, fitfn=NULL){
       else
         cl[["fitfn"]] <- fitfn <- "multinom"
 
-    else if(class(resp) == "integer")
+    else if(inherits(resp, "integer"))
       cl[["fitfn"]] <- fitfn <- "poisson"
 
-    else if(class(resp) == "numeric")
+    else if(inherits(resp, "numeric"))
       cl[["fitfn"]] <- fitfn <- "lm"
 
     else {
@@ -625,10 +628,10 @@ FitMod <- function(formula, data, ..., subset, na.action=na.pass, fitfn=NULL){
     fun <- Tobit
 
   } else if(fitfn == "zeroinfl"){
-    if (!requireNamespace("pscl", quietly = TRUE))
-      stop("package 'pscl' must be installed")
-    fun <- get("zeroinfl", asNamespace("pscl"), inherits = FALSE)
-
+    # if (!requireNamespace("pscl", quietly = TRUE))
+    #   stop("package 'pscl' must be installed")
+    # fun <- get("zeroinfl", asNamespace("pscl"), inherits = FALSE)
+    fun <- zeroinfl
 
   } else if(fitfn == "multinom"){
     if (!requireNamespace("nnet", quietly = TRUE))
@@ -916,15 +919,6 @@ Cstat.FitMod <- function(x, pos=NULL, ...) {
   else
     NA
 }
-
-
-BrierScore.FitMod <- function(x, scaled = FALSE, ...){
-  resp <- Response(x)
-  if(is.factor(resp))
-    resp <- as.numeric(resp) - 1
-  DescTools:::BrierScore.default(resp=resp, pred=predict(x, type="prob"), scaled = scaled)
-}
-
 
 
 # test  -------------------------
@@ -1449,6 +1443,22 @@ RobSummary <- function(mod, conf.level=0.95, type="HC0"){
 
 
 
+
+PredictCI <- function(mod, newdata, conf.level=0.95){
+
+  preds <- predict(mod, newdata=newdata, type="link", se.fit=TRUE)
+  critval <- -qnorm((1-conf.level)/2)
+  res <- cbind(
+    fit <- preds$fit
+    , lwr <- preds$fit - critval * preds$se.fit
+    , upr <- preds$fit + critval * preds$se.fit
+  )
+
+  res <- SetNames(mod$family$linkinv(res),
+                  colnames=c("prob", "lci", "uci"))
+
+  return(res)
+}
 
 
 

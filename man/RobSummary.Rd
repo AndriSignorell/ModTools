@@ -24,7 +24,7 @@ RobSummary(mod, conf.level = 0.95, type = "HC0")
 %%     ~~Describe \code{type} here~~
 
 }
-\details{Further details in \url{https://stats.idre.ucla.edu/r/dae/poisson-regression/}
+\details{Further details in \url{https://stats.oarc.ucla.edu/r/dae/poisson-regression/}
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{

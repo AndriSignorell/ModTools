@@ -20,7 +20,7 @@ As always: Feedback, feature requests, bugreports and other suggestions are welc
 
 
 \details{
-The \code{ModTools::\link{FitMod}())} funcktion comprises interfaces to the following models:
+The \code{ModTools::\link{FitMod}())} function comprises interfaces to the following models:
 \tabular{ll}{
 \bold{Regression}:\tab\cr
  \code{\link{lm}()}  \tab 	 Linear model OLS (\bold{base})\cr

@@ -76,8 +76,6 @@ LogitBoost(x, ...)
 \references{
   Dettling and Buhlmann (2002), \emph{Boosting for Tumor Classification of Gene
     Expression Data}.
-
-  \url{http://www.cs.princeton.edu/~schapire/boost.html}
 }
 
 \author{Jarek Tuszynski (SAIC) \email{jaroslaw.w.tuszynski@saic.com}}
