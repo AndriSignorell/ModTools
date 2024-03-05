@@ -5,8 +5,11 @@ export(
   "Rules", "LeafRates", "CP", "Node", "FitMod", "CoeffDiffCI",
   "PlotLift", "Tune", "RefLevel","BestCut","OverSample","UnderSample","RobSummary", "PredictCI",
   "zeroinfl",
-  "BrierScore","Conf","Cstat","HosmerLemeshowTest","MAE","MAPE","ModSummary",
-  "MSE","NMAE","NMSE","PseudoR2","RMSE","Sens","SMAPE","Spec","StdCoef","TMod","VIF"
+  "Conf","BrierScore","Cstat","BrierScoreCI","CstatCI",
+  "HosmerLemeshowTest",
+  "MAE","MAPE","SMAPE","ModSummary",
+  "MSE","NMAE","NMSE","RMSE","PseudoR2","RSqCI",
+  "Sens","Spec","StdCoef","TMod","VIF"
 )
 
 
@@ -22,7 +25,7 @@ importFrom("stats", "predict", "vcov", "model.frame", "model.response", "na.pass
            "glm.fit", "lm.wfit", "logLik", "make.link", "optim",
            "pnbinom", "poisson", "ppois", "quantile",
            "BIC", "binom.test", "complete.cases",
-           "mcnemar.test", "nobs", "setNames", "weights", "xtabs")
+           "mcnemar.test", "nobs", "setNames", "weights", "xtabs","lm")
 
 importFrom("graphics", "dotchart", "grid", "plot", "par", "legend", "lines",
            "points", "mosaicplot")
@@ -122,6 +125,15 @@ S3method(Cstat, glm)
 # S3method(BrierScore, default)
 # S3method(BrierScore, FitMod)
 # S3method(BrierScore, mult)
+
+
+S3method(BrierScoreCI, default)
+S3method(BrierScoreCI, glm)
+
+
+S3method(CstatCI, default)
+S3method(CstatCI, glm)
+
 
 S3method(MAE, default)
 S3method(MAE, lm)

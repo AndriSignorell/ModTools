@@ -8,6 +8,9 @@ NEW FUNCTIONS ADDED:
     BrierScore(), Conf(), Cstat(), HosmerLemeshowTest(), MAE()
     MAPE(), ModSummary(), MSE(), NMAE(), NMSE(), PseudoR2(),
     RMSE(), Sens(), SMAPE(), Spec(), StdCoef(), TMod(), VIF()
+  * Started to roxygenize the documentation. This will be continued.
+  * BrierScoreCI(), CstatCI(), and RSqCI() return bootstrap
+    confidence intervals for the specific measures.
 
 
 
