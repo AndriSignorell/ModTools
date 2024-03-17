@@ -1,0 +1,720 @@
+destination: docs
+
+development:
+  mode: auto
+
+template:
+  default_assets: true
+  params:
+    bootswatch: spacelab
+
+navbar:
+  structure:
+    left:  [version, home, intro, reference, articles, tutorials, news]
+    right: [github]
+  components:
+    version:
+      icon: fa-book
+      menu:
+      - text: "Documentation for version of package:"
+      - text: Released
+        href: https://andrisignorell.github.io/DescTools/
+      - text: In-development
+        href: https://andrisignorell.github.io/DescTools/dev/
+    articles:
+      text: Tutorials
+      menu:
+        - text: "PDF:"
+        - text: 'Desc Tools Companion'
+          href:  https://github.com/AndriSignorell/DescTools/raw/master/vignettes/DescToolsCompanion.pdf
+        - text: 'Tables in R'
+          href:  https://github.com/AndriSignorell/DescTools/raw/master/vignettes/TablesInR.pdf
+        - text: 'Combinatorics'
+          href:  https://github.com/AndriSignorell/DescTools/raw/master/vignettes/Combinatorics.pdf
+
+# About package ==============================================================
+reference:
+  - title: About Package
+    contents: 
+    - DescTools-package
+
+
+# Data Manipulation ==========================================================
+  - title: "Data Manipulation"
+
+# ~ Operators ----------------------------------------------------------------
+  - subtitle: "Operators"
+    contents: 
+    - "%()%"  
+    - "%)(%" 
+    - "%^%" 
+    - "%c%"
+    - "%like any%" 
+    - "%like%" 
+    - "%nin%" 
+    - "%overlaps%" 
+
+# ~ Transformations & Recoding -----------------------------------------------
+  - subtitle: "Transformations & Recoding"
+    contents: 
+    # Transform: numeric to numeric
+    - BoxCox # - BoxCoxInv
+    - BoxCoxLambda
+    # - DenseRank
+    - FisherZ
+    - FisherZInv
+    - Frac # - Ndec  - MaxDigits  - Prec  
+    - ImputeKnn
+    - LinScale
+    - Logit #  - LogitInv
+    - LogSt # - LogStInv
+    - PercentRank
+    - Rank
+    - RoundTo
+    - Winsorize
+    - ZeroIfNA # - NAIfZero # - Impute
+
+    # Transform: numeric to factor
+    - CutQ
+    - CutAge
+
+    # Transform: factor to factor
+    - Recode
+    - NALevel
+
+    # Transform: factor to numeric
+    - Dummy
+
+    # Transform: other
+    - GeomTrans
+
+# ~ Change Order -------------------------------------------------------------
+  - subtitle: "Change Order"
+    contents: 
+    - LOCF
+    - reorder.factor
+    - Rev
+    - Sort
+    - SortMixed #-  - OrderMixed
+    - VecRot # - VecShift
+
+# ~ Change Size -------------------------------------------------------------
+  - subtitle: "Change Size"
+    contents: 
+    - Abind
+    - Append
+    - Trim
+
+# ~ Reshape Data -------------------------------------------------------------
+  - subtitle: "Reshape Data"
+    contents: 
+    - SplitToCol
+    - SplitToDummy
+    - CollapseTable
+    - Untable
+    - ToLong
+    - ToWide
+    - TextToTable
+    - MultMerge
+    - as.matrix.xtabs
+
+# ~ Names and Metadata -------------------------------------------------------
+  - subtitle: "Names and Metadata"
+    contents: 
+    - Rename
+    - SetNames
+    - Label
+    - Unit
+
+# ~ String Functions -----------------------------------------------------------
+  - subtitle: "String Functions"
+    contents:
+    - BlankIfNA
+    - ColumnWrap
+    - FixToTable
+    - StrAbbr
+    - StrAlign
+    - StrCap
+    - StrChop
+    - StrCountW
+    - StrDist
+    - StrExtract
+    - StrIsNumeric
+    - StrLeft
+    - StrPad
+    - StrPos
+    - StrRev
+    - StrRight
+    - StrSpell
+    - StrSplit
+    - StrTrim
+    - StrTrunc
+    - StrVal
+    - Mgsub
+
+# ~ Date Functions -------------------------------------------------------------
+  - subtitle: "Date Functions"
+    contents:
+    - day.name
+    - day.abb
+    - AddMonths
+    - as.ym
+    - IsDate
+    - IsWeekend
+    - IsLeapYear
+    - LastDayOfMonth
+    - DiffDays360
+    - CountWorkDays
+#    - Date
+    - Day
+    - Month
+    - Year
+    - Hour
+    - Minute
+    - Second
+    - Week
+    - Weekday
+    - Quarter
+    - Timezone
+    - YearDay
+    - YearMonth
+    - Now
+    - Today
+    - HmsToSec
+    - SecToHms
+    - HmsToMinute
+    - Overlap# - Interval
+    - Zodiac
+
+# ~ Conversion functions -------------------------------------------------------
+  - subtitle: "Conversion Functions"
+    contents:
+    - AscToChar
+    - CharToAsc
+    - DecToBin
+    - BinToDec
+    - DecToHex
+    - HexToDec
+    - DecToOct
+    - OctToDec
+    - DegToRad
+    - RadToDeg
+    - CartToPol
+    - PolToCart
+    - CartToSph
+    - SphToCart
+    - RomanToInt
+    - RgbToLong
+    - RgbToCmy
+    - LongToRgb
+    - ColToGray
+    - ColToGrey
+    - ColToHex
+    - HexToCol
+    - HexToRgb
+    - ColToOpaque
+    - ColToHsv
+    - ColToRgb
+    - RgbToCol
+    - ConvUnit
+    - Nf
+
+# Plotting ===================================================================
+  - title: "Plotting"
+
+# ~ Plots (high level) ---------------------------------------------------------
+  - subtitle: "Plots (High Level) "
+    contents:
+    - Lc
+    - PlotACF
+    - PlotArea
+    - PlotBag
+    - PlotBagPairs
+    - PlotBinTree
+    - PlotBubble
+    - PlotCandlestick
+    - PlotCashFlow
+    - PlotCirc
+    - PlotConDens
+    - PlotCorr
+    - PlotDot
+    - PlotECDF
+    - PlotFaces
+    - PlotFdist
+    - PlotFun
+    - PlotGACF
+    - PlotLinesA
+    - PlotLog
+    - PlotMarDens
+    - PlotMiss
+    - PlotMonth
+    - PlotMosaic
+    - PlotMultiDens
+    - PlotPairs
+    - PlotPolar
+    - PlotProbDist
+    - PlotPyramid
+    - PlotQQ
+    - PlotTernary
+    - PlotTreemap
+    - PlotVenn
+    - PlotViolin
+    - PlotWeb
+    - PolarGrid
+    # - PlotDev
+
+# ~ Plots (low level)-----------------------------------------------------------
+  - subtitle: "Plots (Low Level)"
+    contents:
+    - ABCCoords
+    - Asp
+    - AxisBreak
+    - axTicks.POSIXct
+    - BarText
+    - Bg
+    - BoxedText
+    - BubbleLegend
+    - Canvas
+    - ConnLines
+    - DrawArc
+    - DrawBand
+    - DrawBezier
+    - DrawCircle
+    - DrawEllipse
+    - DrawRegPolygon
+    - ErrBars
+    - identify.formula
+    - IdentifyA
+    - lines.lm
+    - lines.loess
+    - lines.smooth.spline
+    - LineToUser
+    - Mar
+    - PtInPoly
+    - Rotate
+    - Shade
+    - SmoothSpline
+    - SpreadOut
+    - Stamp
+    - TitleRect
+
+# ~ Colors ---------------------------------------------------------------------
+  - subtitle: "Colors"
+    contents:
+    - ColorLegend
+    - FindColor
+    - MixColor
+    - Pal
+    - SetAlpha
+    - Fade
+    - TextContrastColor
+
+# Statistical Analysis =======================================================
+
+# ~ Exporatory Analysis & Reporting --------------------------------------------
+  - title: "Exploratory Analysis & Reporting"
+    contents:
+    - Abstract
+    - CatTable
+    - CountCompCases
+    - CompleteColumns
+    - Desc
+    - ExpFreq
+    - Fmt
+    - Format
+    - Freq2D
+    - Freq
+    - HighLow #- Large, # - Small
+    - Margins
+    - PercTable
+    - Str
+    - TMod
+    - TOne
+    - TwoGroups
+
+# ~ Utilities for Statistical Analysis ---------------------------------------
+  - title: "Utilities for Statistical Analysis"
+    contents:
+    - Contrasts
+    - BootCI
+    - DoBy
+    - PairApply
+
+# ~ Statistics: Statistics and Coefficients ----------------------------------
+  - title: "Statistics and Coefficients"
+
+# ~ Statistics: Central tendency -----------------------------------------------
+  
+  - subtitle: "Statistics: Central Tendency / Location"
+    contents:
+    - Mode
+    - Mean
+    - MeanSE
+    - MeanCI
+    - MeanCIn
+    - MeanDiffCI
+    - Gmean
+    - Hmean
+    - MoveAvg
+    - Median
+    - MedianCI
+    - Quantile
+    - QuantileCI
+    - TukeyBiweight
+    - HuberM
+    - HodgesLehmann
+    
+# ~ Statistics: Dispersion / Variation -----------------------------------------
+  - subtitle: "Statistics: Dispersion / Variation"
+    contents:
+    - Range
+    - SD
+    - Var
+    - VarCI 
+    - CoefVar
+    - MAD
+    - MADCI
+    - MeanAD
+    - IQRw
+    - Gsd
+    - SDN
+    - VarN
+
+# ~ Statistics: Shape of Distribtuon -------------------------------------------
+  - subtitle: "Statistics: Shape of Distribution"
+    contents:
+    - Skew
+    - Kurt
+    - Outlier
+    - LOF
+
+# ~ Statistics: Count Variables ------------------------------------------------
+  - subtitle: "Statistics: Count Variables"
+    contents:
+    - PoissonCI
+    
+# ~ Statistics: Proportions ----------------------------------------------------
+  - subtitle: "Statistics: Proportions"
+    contents:
+    - BinomCI
+    - BinomCIn
+    - MultinomCI
+    - BinomRatioCI
+    - BinomDiffCI
+    
+    - OddsRatio
+    - RelRisk
+    - ORToRelRisk
+    
+# ~ Statistics: Correlation ----------------------------------------------------
+  - subtitle: "Statistics: Correlation"
+    contents:
+    - Cor
+    - CorCI
+    - CorPart
+    - CorPolychor
+    - SpearmanRho
+    - KendallTauA
+    - KendallTauB
+    - StuartTauC
+    
+    - HoeffD
+    - KendallW
+    - CCC
+    - ICC
+    
+    - FindCorr
+    - ConDisPairs
+    
+# ~ Statistics: Association ----------------------------------------------------
+  - subtitle: "Statistics: Association"
+    contents:
+    - Assocs
+    - SomersDelta
+    - Lambda
+    - GoodmanKruskalTau
+    - YuleQ
+    - YuleY
+    - TschuprowT
+    - Phi
+    - ContCoef
+    - CramerV
+    - GoodmanKruskalGamma
+
+    - UncertCoef
+    - Entropy
+    - MutInf
+    - DivCoef
+    - DivCoefMax
+    - TheilU
+
+    - Agree
+    - CohenKappa
+    - KappaM
+    - CronbachAlpha
+    - KrippAlpha
+    
+# ~ Statistics: Concentration ----------------------------------------------------
+  - subtitle: "Statistics: Concentration"
+    contents:
+    - Gini
+    - Atkinson
+    - Herfindahl
+    - Rosenbluth
+    - GiniSimpson
+    - GiniDeltas
+    
+# ~ Statistics: Effect Size and Model Assesmant --------------------------------
+  - subtitle: "Statistics: Effect Size and Model Assessment"
+    contents:
+
+    - CohenD
+    - EtaSq  
+
+    - BrierScore
+    - Cstat
+
+    - MAE
+    - MAPE
+    - SMAPE
+    - MSE
+    - RMSE
+    - NMAE
+    - NMSE
+    - Conf
+    - Sens
+    - Spec
+
+    - PseudoR2
+    - VIF
+    - StdCoef
+
+# ~ Statistical Test ---------------------------------------------------------
+  - title: "Statistical Tests"
+    contents:
+    - SignTest
+    - ZTest
+    - TTestA
+    - Phrase
+    - JonckheereTerpstraTest
+    - PageTest
+    - CochranQTest
+    - VarTest
+    - SiegelTukeyTest
+    - SiegelTukeyRank
+    - LeveneTest
+    - MosesTest
+    - RunsTest
+    - DurbinWatsonTest
+    - BartelsRankTest
+
+    - JarqueBeraTest
+    - AndersonDarlingTest
+    - CramerVonMisesTest
+    - LillieTest
+    - PearsonTest
+    - ShapiroFranciaTest
+
+    - MHChisqTest
+    - StuartMaxwellTest
+    - LehmacherTest
+    - CochranArmitageTest
+    - BreslowDayTest
+    - WoolfTest
+
+    - PostHocTest
+    - ScheffeTest
+    - DunnTest
+    - DunnettTest
+    - ConoverTest
+    - NemenyiTest
+
+    - VanWaerdenTest
+    
+    - HotellingsT2Test
+    - YuenTTest
+    - BarnardTest
+    - BhapkarTest
+    - BreuschGodfreyTest
+    - GTest
+    - power.chisq.test
+    - HosmerLemeshowTest
+    - VonNeumannTest
+    - Eps
+
+# ~ Distributions ------------------------------------------------------------
+  - title: "Distributions"
+    contents:
+     - dBenf
+     - dExtrVal
+     - dFrechet
+     - dGenExtrVal
+     - dGenPareto
+     - dGompertz
+     - dGumbel
+     - dNegWeibull
+     - dOrder
+     - dRevGumbel
+     - dRevWeibull
+     - dTri
+#     - _RevGumbelExp
+
+# ~ Finance Functions --------------------------------------------------------
+  - title: "Finance Functions"
+    contents:
+    - OPR
+    - NPV
+    - NPVFixBond
+    - IRR
+    - YTM
+    - SLN
+    - DB
+    - SYD
+    - PMT
+
+# In/Out =====================================================================
+
+# Word, Excel, PowerPoint ----------------------------------------------------
+  - title: "Word, Excel, PowerPoint, SAS: In/Out"
+    contents:
+    - GetCurrPP
+    - GetCurrWrd
+    - GetCurrXL
+    - GetNewPP
+    - GetNewWrd
+    - GetNewXL
+#   - IsValidWrd
+    - IsValidHwnd
+    - ParseSASDatalines
+    - PpAddSlide
+    - PpPlot
+    - PpText
+    - ToWrd
+    - ToWrdB
+    - ToWrdPlot
+    - ToXL
+    - wdConst
+    - WrdBookmark
+    - WrdCaption
+    - WrdCellRange
+    - WrdFont
+    - WrdFormatCells
+    - WrdGoto
+    - WrdInsertBookmark
+    - WrdKill
+    - WrdMergeCells
+    - WrdPageBreak
+    - WrdParagraphFormat
+    - WrdPlot
+    - WrdSaveAs
+    - WrdStyle
+    - WrdTable
+    - WrdTableBorders
+    - WrdUpdateBookmark
+    - XLDateToPOSIXct
+    - XLGetRange
+    - XLGetWorkbook
+    - XLKill
+    - XLSaveAs
+    - XLView
+
+# Sampling and Data Generation -----------------------------------------------
+  - title: "Sampling and Data Generation"
+    contents: 
+    - GenRandGroups
+    - Sample
+    - Strata
+    - Permn # - CombN  # - CombSet
+    - SampleTwins
+    - RndPairs # - RndWord
+    - rSum21
+    - Some
+
+# Tools and Utilities ========================================================
+  - title: "Tools and Utilities"
+    contents:
+    - AllIdentical
+    - DescToolsOptions
+    - DoCall
+    - FctArgs
+    - GetCalls
+    - InDots
+    - Keywords
+    - LsFct
+    - LsObj
+    - DescTools Aliases
+    - ParseFormula
+    - PasswordDlg # ~ GUI-Helpers
+    - PDFManual
+    - Recycle
+    - RSessionAlive
+    - SendOutlookMail
+    - split.formula
+    - SplitAt
+    - StripAttr
+    - SplitPath
+    - SysInfo
+    - Unwhich
+    - Vigenere
+    - AllDuplicated
+    - Coalesce
+    - Quot
+    - SaveAs
+    - WithOptions
+    - RevCode 
+
+    - IsNumeric
+    - IsWhole
+    - IsDichotomous
+    - IsOdd
+    - IsPrime
+    - IsZero
+    - IsEuclid
+    
+# Calculations ---------------------------------------------------------------
+  - title: "Calculations"
+    contents:
+    - AUC
+    - BinTree
+    - Clockwise
+    - Closest
+    - CombPairs
+    - Cross
+    - CrossN
+    - DigitSum
+    - Divisors
+    - Dot
+    - Factorize
+    - Fibonacci
+    - GCD 
+    - LCM
+    - GeomSn
+    - Midx
+    - Primes
+    - RobScale
+    - UnirootAll
+    - EX
+    - VarX
+
+# Data =======================================================================
+# ~ Datasets & Reference Data ------------------------------------------------
+  - title: "Data"
+
+# ~ Datasets
+  - subtitle: "Datasets"
+    contents:
+    - CourseData
+    - d.pizza
+    - d.whisky
+    - d.diamonds
+
+# ~ Reference Data 
+  - subtitle: "Reference Data"
+    contents:
+    - d.units
+    - cards
+    - d.countries
+    - d.periodic
+    - d.prefix
+    - roulette
+    - tarot
