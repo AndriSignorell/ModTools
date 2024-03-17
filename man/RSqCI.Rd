@@ -40,8 +40,8 @@ a numeric vector with 3 elements: \item{mean}{mean}
 bound of the confidence interval}
 }
 \description{
-Calculate bootstrap intervals for the the R squared of a Linear Model as returned
-by \code{lm}.
+Calculate bootstrap intervals for the the R squared of a linear model as returned
+by \code{\link{lm}}.
 }
 \examples{
 
@@ -52,7 +52,7 @@ r.lm <- lm(Fertility ~ Agriculture + Examination + Education
 # calculate confidence intervals for the R2
 summary(r.lm)$r.squared
 
-RSqCI(r.lm)
+RSqCI(r.lm, R=99)   # use higher R in real life!
 }
 \seealso{
 \code{\link{BrierScore}}

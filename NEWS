@@ -10,7 +10,7 @@ NEW FUNCTIONS ADDED:
     RMSE(), Sens(), SMAPE(), Spec(), StdCoef(), TMod(), VIF()
   * Started to roxygenize the documentation. This will be continued.
   * BrierScoreCI(), CstatCI(), and RSqCI() return bootstrap
-    confidence intervals for the specific measures.
+    confidence intervals for the specific measures (based on glm, resp. lm).
 
 
 

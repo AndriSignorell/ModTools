@@ -40,16 +40,19 @@
 #' CstatCI(r.logit, R=99)  # use higher R in real life!
 
 
-CstatCI <- function(object, conf.level = 0.95, sides = c("two.sided", "left", "right"), ...){
+CstatCI <- function(object, conf.level = 0.95,
+                    sides = c("two.sided", "left", "right"), ...){
   UseMethod("CstatCI")
 }
 
 
-CstatCI.default <- function(object, conf.level = 0.95, sides = c("two.sided", "left", "right"), ...)
+CstatCI.default <- function(object, conf.level = 0.95,
+                            sides = c("two.sided", "left", "right"), ...)
   .NotThere(object)
 
 
-CstatCI.glm <- function(object, conf.level = 0.95, sides = c("two.sided", "left", "right"), ...){
+CstatCI.glm <- function(object, conf.level = 0.95,
+                        sides = c("two.sided", "left", "right"), ...){
 
   # example:
   #   CstatCI(r.base, R=99)

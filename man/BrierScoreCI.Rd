@@ -36,7 +36,7 @@ a numeric vector with 3 elements: \item{mean}{mean}
 bound of the confidence interval}
 }
 \description{
-Calculate bootstrap intervals for the Brier score, based on a glm.
+Calculate bootstrap intervals for the Brier score, based on a \code{\link{glm}}.
 }
 \examples{
 
@@ -45,7 +45,7 @@ r.logit <- FitMod(diabetes ~ ., data=d.pima, fitfn="logit")
 
 # calculate Brier score with confidence intervals
 BrierScore(r.logit)
-BrierScoreCI(r.logit)
+BrierScoreCI(r.logit, R=99)   # use higher R in real life!
 }
 \seealso{
 \code{\link{BrierScore}}
