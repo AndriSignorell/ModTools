@@ -1,12 +1,13 @@
 
 export(
   "ROC", "Response", "VarImp",
-  "SplitTrainTest", "LogitBoost","BreuschPaganTest", "TModC",
+  "SplitTrainTest", "LogitBoost", "TModC",
   "Rules", "LeafRates", "CP", "Node", "FitMod", "CoeffDiffCI",
-  "PlotLift", "Tune", "RefLevel","BestCut","OverSample","UnderSample","RobSummary", "PredictCI",
+  "PlotLift", "Tune", "RefLevel","BestCut","OverSample","UnderSample",
+  "RobSummary", "PredictCI",
   "zeroinfl",
   "Conf","BrierScore","Cstat","BrierScoreCI","CstatCI",
-  "HosmerLemeshowTest",
+  "HosmerLemeshowTest","BreuschPaganTest","BreuschGodfreyTest",
   "MAE","MAPE","SMAPE","ModSummary",
   "MSE","NMAE","NMSE","RMSE","PseudoR2","RSqCI",
   "Sens","Spec","StdCoef","TMod","VIF"
@@ -24,7 +25,7 @@ importFrom("stats", "predict", "vcov", "model.frame", "model.response", "na.pass
            "binomial", "delete.response", "dnbinom", "dpois",
            "glm.fit", "lm.wfit", "logLik", "make.link", "optim",
            "pnbinom", "poisson", "ppois", "quantile",
-           "BIC", "binom.test", "complete.cases",
+           "BIC", "binom.test", "complete.cases","pf",
            "mcnemar.test", "nobs", "setNames", "weights", "xtabs","lm")
 
 importFrom("graphics", "dotchart", "grid", "plot", "par", "legend", "lines",

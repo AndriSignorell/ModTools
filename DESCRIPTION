@@ -1,7 +1,7 @@
 Package: ModTools
 Type: Package
 Title: Tools for Building Regression and Classification Models
-Version: 0.9.10
+Version: 0.9.11
 Date: 2024-03-17
 Encoding: UTF-8
 Authors@R: c(
