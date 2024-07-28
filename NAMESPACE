@@ -4,13 +4,8 @@ export(
   "SplitTrainTest", "LogitBoost", "TModC",
   "Rules", "LeafRates", "CP", "Node", "FitMod", "CoeffDiffCI",
   "PlotLift", "Tune", "RefLevel","BestCut","OverSample","UnderSample",
-  "RobSummary", "PredictCI",
-  "zeroinfl",
-  "Conf","BrierScore","Cstat","BrierScoreCI","CstatCI",
-  "HosmerLemeshowTest","BreuschPaganTest","BreuschGodfreyTest",
-  "MAE","MAPE","SMAPE","ModSummary",
-  "MSE","NMAE","NMSE","RMSE","PseudoR2","RSqCI",
-  "Sens","Spec","StdCoef","TMod","VIF"
+  "RobSummary", "PredictCI","BreuschPaganTest",
+  "zeroinfl"
 )
 
 
@@ -41,7 +36,8 @@ importFrom("pROC","roc","auc","coords", "ci.coords")
 importFrom("randomForest", "randomForest","importance", "tuneRF")
 importFrom("DescTools","Unwhich", "Sort","DoCall","Pal","OddsRatio",
            "Format","SetAlpha","Desc", "DescToolsOptions", "Fmt","IsDichotomous",
-           "SetNames", "Mode", "BoxedText","Append", "ColToOpaque", "Sample")
+           "SetNames", "Mode", "BoxedText","Append", "ColToOpaque", "Sample",
+           "Conf","Cstat","BrierScore","PseudoR2")
 importFrom("C50","C5.0","C5imp")
 importFrom("e1071","svm")
 importFrom("rpart","rpart","path.rpart","printcp","plotcp")
@@ -101,17 +97,17 @@ S3method(VarImp, default)
 S3method(VarImp, lm)
 
 
-S3method(Conf, default)
-S3method(Conf, table)
-S3method(Conf, matrix)
-S3method(Conf, rpart)
-S3method(Conf, multinom)
-S3method(Conf, glm)
-S3method(Conf, randomForest)
-S3method(Conf, svm)
-S3method(Conf, regr)
-S3method(Conf, lda)
-S3method(Conf, qda)
+# S3method(Conf, default)
+# S3method(Conf, table)
+# S3method(Conf, matrix)
+# S3method(Conf, rpart)
+# S3method(Conf, multinom)
+# S3method(Conf, glm)
+# S3method(Conf, randomForest)
+# S3method(Conf, svm)
+# S3method(Conf, regr)
+# S3method(Conf, lda)
+# S3method(Conf, qda)
 
 
 
@@ -120,41 +116,41 @@ S3method(OddsRatio, polr)
 
 
 
-S3method(Cstat, default)
-S3method(Cstat, glm)
+# S3method(Cstat, default)
+# S3method(Cstat, glm)
 
 # S3method(BrierScore, default)
 # S3method(BrierScore, FitMod)
 # S3method(BrierScore, mult)
 
 
-S3method(BrierScoreCI, default)
-S3method(BrierScoreCI, glm)
+# S3method(BrierScoreCI, default)
+# S3method(BrierScoreCI, glm)
 
 
-S3method(CstatCI, default)
-S3method(CstatCI, glm)
+# S3method(CstatCI, default)
+# S3method(CstatCI, glm)
 
 
-S3method(MAE, default)
-S3method(MAE, lm)
+# S3method(MAE, default)
+# S3method(MAE, lm)
 
-S3method(MAPE, default)
-S3method(MAPE, lm)
+# S3method(MAPE, default)
+# S3method(MAPE, lm)
 
-S3method(SMAPE, default)
-S3method(SMAPE, lm)
+# S3method(SMAPE, default)
+# S3method(SMAPE, lm)
 
-S3method(MSE, default)
-S3method(MSE, lm)
+# S3method(MSE, default)
+# S3method(MSE, lm)
 
-S3method(RMSE, default)
-S3method(RMSE, lm)
+# S3method(RMSE, default)
+# S3method(RMSE, lm)
 
-S3method(ModSummary, glm)
-S3method(ModSummary, lm)
-S3method(ModSummary, lmrob)
-S3method(ModSummary, OddsRatio)
+# S3method(ModSummary, glm)
+# S3method(ModSummary, lm)
+# S3method(ModSummary, lmrob)
+# S3method(ModSummary, OddsRatio)
 
 
 

@@ -1,19 +1,10 @@
 
 
-ModTools 0.9.5 (2024-03-25)
+ModTools 0.9.5 (2024-07-28)
 -----------------------------
 
 NEW FUNCTIONS ADDED:
-  * Following functions have been moved from DescTools because
-    they fit thematically better here:
-    BrierScore(), Conf(), Cstat(), HosmerLemeshowTest(),
-    BreuschGodfreyTest(), MAE(), MAPE(), ModSummary(),
-    MSE(), NMAE(), NMSE(), PseudoR2(),
-    RMSE(), Sens(), SMAPE(), Spec(), StdCoef(), TMod(), VIF()
   * Started to roxygenize the documentation. This will be continued.
-  * BrierScoreCI(), CstatCI(), and RSqCI() return bootstrap
-    confidence intervals for the specific measures (based on glm, resp. lm).
-
 
 
 
