@@ -361,7 +361,7 @@ Thank you all! <br></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">old</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">TMod</span><span class="op">(</span><span class="va">r.pois</span>, <span class="va">r.nb</span>, <span class="va">r.log</span>, <span class="va">r.ols</span>, <span class="va">r.gam</span>, <span class="va">r.gami</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/TMod.html" class="external-link">TMod</a></span><span class="op">(</span><span class="va">r.pois</span>, <span class="va">r.nb</span>, <span class="va">r.log</span>, <span class="va">r.ols</span>, <span class="va">r.gam</span>, <span class="va">r.gami</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Waiting for profiling to be done...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Waiting for profiling to be done...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Waiting for profiling to be done...</span>
@@ -538,7 +538,7 @@ Thank you all! <br></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Degrees of Freedom: 767 Total (i.e. Null);  759 Residual</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Null Deviance:	    993.5 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Residual Deviance: 723.4 	AIC: 741.4</span>
-<span class="r-in"><span><span class="fu">Conf</span><span class="op">(</span><span class="va">r.pima</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/Conf.html" class="external-link">Conf</a></span><span class="op">(</span><span class="va">r.pima</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Confusion Matrix and Statistics</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -572,7 +572,7 @@ Thank you all! <br></p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="ROC.html">ROC</a></span><span class="op">(</span><span class="va">r.pima</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Setting levels: control = neg, case = pos</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Setting direction: controls &lt; cases</span>
-<span class="r-in"><span><span class="fu">OddsRatio</span><span class="op">(</span><span class="va">r.pima</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/OddsRatio.html" class="external-link">OddsRatio</a></span><span class="op">(</span><span class="va">r.pima</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> glm(formula = diabetes ~ ., family = "binomial", data = d.pima)</span>
@@ -634,7 +634,7 @@ Thank you all! <br></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            57) pressure&lt; 61 10   0 pos (0.00000000 1.00000000) *</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          29) age&gt;=30.5 65  18 pos (0.27692308 0.72307692) *</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        15) glucose&gt;=157.5 92  12 pos (0.13043478 0.86956522) *</span>
-<span class="r-in"><span><span class="fu">Conf</span><span class="op">(</span><span class="va">rp.pima</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/Conf.html" class="external-link">Conf</a></span><span class="op">(</span><span class="va">rp.pima</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Confusion Matrix and Statistics</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -670,7 +670,7 @@ Thank you all! <br></p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Setting direction: controls &lt; cases</span>
 <span class="r-plt img"><img src="ModTools-package-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># to be improved</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rp.pima</span>, col<span class="op">=</span><span class="fu">SetAlpha</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>,<span class="st">"red"</span><span class="op">)</span>, <span class="fl">0.4</span><span class="op">)</span>, cex<span class="op">=</span><span class="fl">0.7</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rp.pima</span>, col<span class="op">=</span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/SetAlpha.html" class="external-link">SetAlpha</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>,<span class="st">"red"</span><span class="op">)</span>, <span class="fl">0.4</span><span class="op">)</span>, cex<span class="op">=</span><span class="fl">0.7</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Random Forest</span></span></span>
@@ -688,7 +688,7 @@ Thank you all! <br></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     neg pos class.error</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> neg 430  70   0.1400000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> pos 107 161   0.3992537</span>
-<span class="r-in"><span><span class="fu">Conf</span><span class="op">(</span><span class="va">rf.pima</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/Conf.html" class="external-link">Conf</a></span><span class="op">(</span><span class="va">rf.pima</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Confusion Matrix and Statistics</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -747,7 +747,7 @@ Thank you all! <br></p>
 <span class="r-in"><span>             , nn<span class="op">=</span><span class="va">r.nn</span>, nb<span class="op">=</span><span class="va">r.nb</span>, lda<span class="op">=</span><span class="va">r.lda</span>, qda<span class="op">=</span><span class="va">r.qda</span>, lb<span class="op">=</span><span class="va">r.lb</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># insight in the Regression tree</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">r.rp</span>, box.palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">Pal</span><span class="op">(</span><span class="st">"Helsana"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">r.rp</span>, box.palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/Pal.html" class="external-link">Pal</a></span><span class="op">(</span><span class="st">"Helsana"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="ModTools-package-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Insample accuracy ...</span></span></span>
@@ -889,7 +889,7 @@ Thank you all! <br></p>
 <span class="r-in"><span>             nn<span class="op">=</span><span class="va">r.nn</span>, nbay<span class="op">=</span><span class="va">r.nbay</span>, lda<span class="op">=</span><span class="va">r.lda</span>, lb<span class="op">=</span><span class="va">r.lb</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># confusion matrix and other quality measures can be calculated with Conf()</span></span></span>
-<span class="r-in"><span><span class="fu">Conf</span><span class="op">(</span><span class="va">r.rf</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/Conf.html" class="external-link">Conf</a></span><span class="op">(</span><span class="va">r.rf</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Confusion Matrix and Statistics</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -930,7 +930,7 @@ Thank you all! <br></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># we only extract the general accuracy</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">mods</span>, <span class="kw">function</span><span class="op">(</span><span class="va">z</span><span class="op">)</span> <span class="fu">Conf</span><span class="op">(</span><span class="va">z</span><span class="op">)</span><span class="op">)</span>, <span class="st">"[["</span>, <span class="st">"acc"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">mods</span>, <span class="kw">function</span><span class="op">(</span><span class="va">z</span><span class="op">)</span> <span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/Conf.html" class="external-link">Conf</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span><span class="op">)</span>, <span class="st">"[["</span>, <span class="st">"acc"</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(object$call$data):</span> object 'd.gl' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># let's compare r.mult with a model without RI as predictor</span></span></span>
