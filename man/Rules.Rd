@@ -31,7 +31,7 @@ Rules(x, node = NULL, leafonly = FALSE)
 }
 
 \seealso{
- \code{\link{rpart}}, \code{\link{path.rpart}}
+ \code{\link[rpart]{rpart}}, \code{\link[rpart]{path.rpart}}
  }
 \examples{
 r.rp <- FitMod(diabetes ~ ., data=d.pima, fitfn="rpart")

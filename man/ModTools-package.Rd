@@ -31,12 +31,12 @@ The \code{ModTools::\link{FitMod}())} function comprises interfaces to the follo
  \code{tobit()}  \tab 	Tobit model for censored responses (package  \bold{AER})\cr
 \cr\cr\cr
 \bold{Classification}:	\tab\cr
-\code{\link{lda}()}  \tab 	 Linear discriminant analysis (\bold{MASS})\cr
-\code{\link{qda}()}  \tab 	 Quadratic discriminant analysis (\bold{MASS})\cr
+\code{\link[MASS]{lda}()}  \tab 	 Linear discriminant analysis (\bold{MASS})\cr
+\code{\link[MASS]{qda}()}  \tab 	 Quadratic discriminant analysis (\bold{MASS})\cr
 \code{logit()}  \tab 	 Logistic Regression model \code{\link{glm}}, family \code{binomial(logit)}(\bold{base})\cr
-\code{\link{multinom}()}  \tab 	 Multinomial Regression model (\bold{nnet})\cr
+\code{\link[nnet]{multinom}()}  \tab 	 Multinomial Regression model (\bold{nnet})\cr
  \code{\link[MASS]{polr}()}  \tab 	 Proportional odds model (\bold{MASS})\cr
-\code{\link{rpart}()}  \tab 	 Regression and classification trees (\bold{rpart})\cr
+\code{\link[rpart]{rpart}()}  \tab 	 Regression and classification trees (\bold{rpart})\cr
 \code{\link[nnet]{nnet}()}  \tab 	 Neuronal networks (\bold{nnet})\cr
 \code{\link[randomForest]{randomForest}()}   \tab 	 Random forests (\bold{randomForest})\cr
 \code{\link[C50]{C5.0}()}   \tab 	 C5.0 tree (\bold{C50})\cr

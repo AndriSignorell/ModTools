@@ -57,7 +57,7 @@ The classifying algorithms will at the minimum offer the predicting options \cod
 }
 
 \seealso{
-\code{\link{lm}}, \code{\link{rpart}}
+\code{\link{lm}}, \code{\link[rpart]{rpart}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
