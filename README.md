@@ -53,8 +53,20 @@ R is a community project. This can be seen from the fact that this package inclu
 library(ModTools)
 ```
 
-<!-- ## Demo "describe" -->
+<!-- ## Demo "Binomial Models" -->
 
 ``` r
-demo(describe, package = "ModTools")
+demo(bin_mod, package = "ModTools")
+```
+
+<!-- ## Demo "Multinomial Models" -->
+
+``` r
+demo(mult_mod, package = "ModTools")
+```
+
+<!-- ## Demo "Numeric Models" -->
+
+``` r
+demo(num_mod, package = "ModTools")
 ```

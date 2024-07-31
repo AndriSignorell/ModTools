@@ -2,7 +2,7 @@ Package: ModTools
 Type: Package
 Title: Tools for Building Regression and Classification Models
 Version: 0.9.12
-Date: 2024-07-28
+Date: 2024-07-31
 Encoding: UTF-8
 Authors@R: c(
   person("Andri", "Signorell", email = "andri@signorell.net", role = c("aut", "cre")),
