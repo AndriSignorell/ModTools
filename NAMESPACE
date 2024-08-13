@@ -88,6 +88,7 @@ S3method(Conf, FitMod)
 S3method(Cstat, FitMod)
 # S3method(BrierScore, FitMod)
 S3method(OddsRatio, FitMod)
+S3method(update, FitMod)
 
 
 S3method(predict, LogitBoost)

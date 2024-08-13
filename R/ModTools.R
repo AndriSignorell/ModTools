@@ -814,6 +814,7 @@ drop1.FitMod <- function(object, ...){
 }
 
 
+
 print.FitMod <- function(x, ...){
   if(inherits(x, "multinom"))
     .print.multinom(x, ...)
@@ -854,6 +855,21 @@ plot.FitMod <- function(x, ...){
     NextMethod(x, ...)
   }
 }
+
+as.FitMod <- function(x){
+  structure(x, class=c("FitMod", class(x)))
+}
+
+
+update.FitMod <- function(object, ...){
+  # update kills the model class, so restore here
+  oclass <- class(object)
+  class(object) <- class(object)[class(object) != "FitMod"]
+  res <- update(object, ...)
+  class(res) <- oclass
+  return (res)
+}
+
 
 
 
