@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ModTools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.12.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.13</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,11 +101,11 @@ A matrix with all combination of the values for the given parameters, sorted by 
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># let's get some more quality measures</span></span></span>
 <span class="r-in"><span><span class="va">tu</span><span class="op">$</span><span class="va">modpar</span><span class="op">$</span><span class="va">Sens</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">tu</span><span class="op">$</span><span class="va">mods</span>, <span class="va">Sens</span><span class="op">)</span>     <span class="co"># Sensitivity</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'tu' not found</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'tu' not found</span>
 <span class="r-in"><span><span class="va">tu</span><span class="op">$</span><span class="va">modpar</span><span class="op">$</span><span class="va">Spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">tu</span><span class="op">$</span><span class="va">mods</span>, <span class="va">Spec</span><span class="op">)</span>     <span class="co"># Specificity</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'tu' not found</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'tu' not found</span>
 <span class="r-in"><span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/Sort.html" class="external-link">Sort</a></span><span class="op">(</span><span class="va">tu</span><span class="op">$</span><span class="va">modpar</span>, ord<span class="op">=</span><span class="st">"test_acc"</span>, decreasing<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'tu' not found</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'tu' not found</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
@@ -118,7 +118,7 @@ A matrix with all combination of the values for the given parameters, sorted by 
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

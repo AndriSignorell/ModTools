@@ -15,7 +15,7 @@ As always: Feedback, feature requests, bugreports and other suggestions are welc
 
     <a class="navbar-brand me-2" href="../index.html">ModTools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.12.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.13</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -782,7 +782,7 @@ Thank you all! <br></p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Setting direction: controls &lt; cases</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Setting levels: control = neg, case = pos</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Setting direction: controls &lt; cases</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(object$call$data):</span> object 'd.pim' not found</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (attr(attr(data, "terms"), "response")) {    if (is.list(data) || is.data.frame(data)) {        v &lt;- data[[1L]]        if (type == "numeric" &amp;&amp; is.factor(v)) {            warning("using type = \"numeric\" with a factor response will be ignored")        }        else if (type == "numeric" || type == "double")             storage.mode(v) &lt;- "double"        else if (type != "any")             stop("invalid response type")        if (is.matrix(v) &amp;&amp; ncol(v) == 1L)             dim(v) &lt;- NULL        if (is.object(v) &amp;&amp; inherits(v, "AsIs"))             v &lt;- unclass(v)        rows &lt;- attr(data, "row.names")        if (nrows &lt;- length(rows)) {            if (length(v) == nrows)                 names(v) &lt;- rows            else if (length(dd &lt;- dim(v)) == 2L)                 if (dd[1L] == nrows &amp;&amp; !length((dn &lt;- dimnames(v))[[1L]]))                   dimnames(v) &lt;- list(rows, dn[[2L]])        }        return(v)    }    else stop("invalid 'data' argument")} else return(NULL):</span> argument is of length zero</span>
 <span class="r-in"><span><span class="co"># C5 and SVM turn out to be show-offs! They overfit quite ordinary</span></span></span>
 <span class="r-in"><span><span class="co"># whereas randomforest and logit keep their promises. ...</span></span></span>
 <span class="r-in"><span></span></span>
@@ -947,7 +947,7 @@ Thank you all! <br></p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>
