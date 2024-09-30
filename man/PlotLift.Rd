@@ -66,10 +66,10 @@ r.nn <- FitMod(diabetes ~ pregnant + glucose + pressure + triceps
                 , data=d.pim$train, fitfn="nnet")
 
 oldpar <- par(mfrow=c(1,2))
+on.exit(par(oldpar))
 PlotLift(c("r.rp", "r.glm", "r.nn"), data = d.pim$train,
               targLevel = "pos", trueResp =0.34, type = "cumulative")
 PlotLift(c("r.rp", "r.glm", "r.nn"), data = d.pim$train,
               targLevel = "pos", trueResp =0.34, type = "incremental")
-par(oldpar)
 }
 \keyword{misc}

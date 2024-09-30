@@ -20,19 +20,14 @@ LogitBoost(x, ...)
 \arguments{
 
   \item{formula}{a formula expression as for regression models, of the form \code{response ~ predictors}. The response should be a factor or a matrix with K columns, which will be interpreted as counts for each of K classes. See the documentation of \code{\link{formula}()} for other details.
-%%     ~~Describe \code{formula} here~~
 }
   \item{data}{an optional data frame in which to interpret the variables occurring in formula.
-%%     ~~Describe \code{data} here~~
 }
   \item{\dots}{additional arguments for nnet
-%%     ~~Describe \code{\dots} here~~
 }
   \item{subset}{expression saying which subset of the rows of the data should be used in the fit. All observations are included by default.
-%%     ~~Describe \code{subset} here~~
 }
   \item{na.action}{a function to filter missing data.
-%%     ~~Describe \code{na.action} here~~
 }
 
   \item{x}{A matrix or data frame with training data. Rows contain samples

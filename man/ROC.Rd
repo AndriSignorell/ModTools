@@ -1,22 +1,16 @@
 \name{ROC}
 \alias{ROC}
-
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{Build a ROC curve
-%%  ~~function to do ... ~~
 }
 \description{This is a wrapper to the main function \code{\link[pROC]{pROC}} of the \pkg{pROC} package (by Xavier Robin et al.). It builds a ROC curve and returns a \code{"roc"} object, a list of class \code{"roc"}.
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
 ROC(x, resp = NULL, ...)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{a model object, or the predicted probabilities, when resp is not \code{NULL}. }
   \item{resp}{the response}
   \item{\dots}{all arguments are passed to \code{roc()}.
-%%     ~~Describe \code{\dots} here~~
 }
 }
 
@@ -30,14 +24,12 @@ of the PartialROC funcion, available at \url{https://github.com/narayanibarve/EN
 A data.frame containing the AUC values and AUC ratios calculated for each iteration.
 }
 \seealso{\code{\link[pROC]{pROC}}}
-\author{Andri Signorell <andri@signorell.net>
-%%  ~~who you are~~
-}
+\author{Andri Signorell <andri@signorell.net>}
 
 
 \references{
 Peterson, A.T. et al. (2008) Rethinking receiver operating characteristic analysis applications in ecological niche modeling. Ecol. Modell., 213, 63-72.
-}%% ~Make other sections like Warning with \section{Warning }{....} ~
+}
 
 \examples{
 r.glm <- FitMod(diabetes ~ ., data = d.pima, fitfn="logit")
@@ -57,6 +49,4 @@ for(i in seq_along(mlst))
     lines(ROC(mlst[[i]], col=c(hred, hblue)[i]))
   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ model }

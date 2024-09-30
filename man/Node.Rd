@@ -2,35 +2,26 @@
 \alias{Node}
 \alias{Splits}
 
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{Nodes and Splits in an rpart Tree
-%%  ~~function to do ... ~~
 }
 \description{The \code{rpart} result object has a complex and compact design. This can make practical use tedious for occasional users as it is difficult to figure out how to access some specific information. The function \code{Node()} is designed as accessor to the most important properties of a node, being a 'split' or a 'leaf' (aka. 'endnode'). It also serves as base for further convenience functions as e.g. \code{\link{LeafRates}()}.
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
 Node(x, node = NULL, type = c("all", "split", "leaf"), digits = 3)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
 fitted model object of class \code{rpart}.
-%%     ~~Describe \code{x} here~~
 }
   \item{node}{integer vector, defining the nodes whose details are required.
-%%     ~~Describe \code{node} here~~
 }
   \item{type}{one out of \code{"all"} (default), \code{"split"}, \code{"leaf"}, where the latter two restrict the result set to splits or end nodes only. Can be abbreviated.
-%%     ~~Describe \code{node} here~~
 }
 \item{digits}{the number of digits for numeric values}
 }
 \details{\code{Node()} returns detailed information for a single node in the tree. It reports all the data in the summary of a node, but with the option to provide a nodelist. The structure of the result is organised as a list.
 }
 \value{A list containing:
-%%  ~Describe the value returned
-%%  If it is a LIST, use
 \item{id}{int, id of the node}
 \item{vname }{character, one out of \code{'leaf'} or \code{'split'}}
 \item{isleaf }{logical, \code{TRUE} for leaves \code{FALSE} else}
@@ -43,13 +34,10 @@ fitted model object of class \code{rpart}.
 \item{tprint}{character, the text to be printed}
 }
 
-\author{Andri Signorell <andri@signorell.net>
-%%  ~~who you are~~
-}
+\author{Andri Signorell <andri@signorell.net>}
 
-\seealso{\code{\link{LeafRates}}, \code{\link{Rules}}
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\seealso{\code{\link{LeafRates}}, \code{\link{Rules}}}
+
 \examples{
 r.rpart <- FitMod(Species ~ ., data=iris, fitfn="rpart")
 # return Node nr. 3
@@ -59,6 +47,5 @@ r.rp <- FitMod(Type ~ ., data = d.glass, fitfn="rpart")
 # return all the splits
 Node(r.rpart, type="split")
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ tree }% __ONLY ONE__ keyword per line
+\keyword{ tree }
+

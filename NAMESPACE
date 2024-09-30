@@ -4,8 +4,7 @@ export(
   "SplitTrainTest", "LogitBoost", "TModC",
   "Rules", "LeafRates", "CP", "Node", "FitMod", "CoeffDiffCI",
   "PlotLift", "Tune", "RefLevel","BestCut","OverSample","UnderSample",
-  "RobSummary", "PredictCI","BreuschPaganTest",
-  "zeroinfl"
+  "RobSummary", "PredictCI","BreuschPaganTest"
 )
 
 
@@ -42,7 +41,7 @@ importFrom("C50","C5.0","C5imp")
 importFrom("e1071","svm")
 importFrom("rpart","rpart","path.rpart","printcp","plotcp")
 
-# importFrom("pscl", "zeroinfl")
+importFrom("pscl", "zeroinfl")
 
 importFrom("relaimpo", "calc.relimp")
 importFrom("rpart.plot", "rpart.plot")
@@ -61,22 +60,6 @@ importFrom("naivebayes", "naive_bayes")
 importFrom("sandwich", "vcovHC")
 importFrom("AER", "tobit")
 
-
-
-## methods for class zeroinfl
-  S3method("print", "zeroinfl")
-  S3method("print", "summary.zeroinfl")
-  S3method("summary", "zeroinfl")
-  S3method("coef", "zeroinfl")
-  S3method("vcov", "zeroinfl")
-  S3method("logLik", "zeroinfl")
-  S3method("predict", "zeroinfl")
-  S3method("residuals", "zeroinfl")
-  S3method("fitted", "zeroinfl")
-#  S3method("predprob", "zeroinfl")
-  S3method("terms", "zeroinfl")
-  S3method("model.matrix", "zeroinfl")
-  S3method("extractAIC", "zeroinfl")
 
 S3method(Desc, rpart)
 

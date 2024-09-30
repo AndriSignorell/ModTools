@@ -1,7 +1,6 @@
 \name{TModC}
 \alias{TModC}
 \alias{plot.TModC}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{Compare Classification Models
 }
 \description{For the comparison of several classification models, the AUC values and BrierScore values of the models are determined and tabulated. Both the absolute values and the relative values are reported, each related to the model with the highest corresponding value.
@@ -11,7 +10,6 @@ TModC(..., newdata = NULL, reference = NULL, ord = NULL)
 
 \method{plot}{TModC}(x, col = NULL, args.legend = NULL,...)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{\dots}{the models to be compared}
   \item{x}{\code{TModC} object to plot}
@@ -37,10 +35,8 @@ TModC(..., newdata = NULL, reference = NULL, ord = NULL)
 }
 
 \author{Andri Signorell <andri@signorell.net>
-%%  ~~who you are~~
 }
 \seealso{\code{\link[DescTools]{TMod}}, \code{\link[DescTools]{BrierScore}}, \code{\link[DescTools]{AUC}}, \code{\link{ROC}}
-%% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
 d.pim <- SplitTrainTest(d.pima, p = 0.2)
@@ -57,6 +53,4 @@ mods <- list(glm=r.glm, rp=r.rp)
 # plotting the ROC curves
 plot(tm, col=c("darkmagenta", "dodgerblue"))
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{models}% use one of  RShowDoc("KEYWORDS")
+\keyword{models}

@@ -1,5 +1,16 @@
 
 
+
+ModTools 0.9.13 (2024-09-25)
+-----------------------------
+
+DEFUNCT FUNCTIONS:
+  * zeroinfl() is on CRAN again, after having been archived before.
+    Therefore we are falling back to using the function directly from
+    the package.
+
+
+
 ModTools 0.9.5 (2024-07-28)
 -----------------------------
 

@@ -628,10 +628,9 @@ FitMod <- function(formula, data, ..., subset, na.action=na.pass, fitfn=NULL){
     fun <- Tobit
 
   } else if(fitfn == "zeroinfl"){
-    # if (!requireNamespace("pscl", quietly = TRUE))
-    #   stop("package 'pscl' must be installed")
-    # fun <- get("zeroinfl", asNamespace("pscl"), inherits = FALSE)
-    fun <- zeroinfl
+    if (!requireNamespace("pscl", quietly = TRUE))
+      stop("package 'pscl' must be installed")
+    fun <- get("zeroinfl", asNamespace("pscl"), inherits = FALSE)
 
   } else if(fitfn == "multinom"){
     if (!requireNamespace("nnet", quietly = TRUE))

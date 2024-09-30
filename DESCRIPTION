@@ -1,6 +1,6 @@
 Package: ModTools
 Type: Package
-Title: Tools for Building Regression and Classification Models
+Title: Building Regression and Classification Models
 Version: 0.9.13
 Date: 2024-09-25
 Encoding: UTF-8
@@ -20,11 +20,11 @@ Authors@R: c(
   person("Jarek"    , "Tuszynski", role = c("ctb")),
   person("Robin"    , "Xavier",    role = c("ctb")),
   person("Achim"    , "Zeileis",   role = c("ctb")))
-Description: Collection of tools for regression and classification tasks. The package implements a consistent user interface to the most popular regression and classification algorithms, such as random forest, neural networks, C5 trees and support vector machines, and complements it with a handful of auxiliary functions, such as variable importance and a tuning function for the parameters.
+Description: Consistent user interface to the most common regression and classification algorithms, such as random forest, neural networks, C5 trees and support vector machines, complemented with a handful of auxiliary functions, such as variable importance and a tuning function for the parameters.
 Depends: DescTools, MASS, nnet, survival, R (>= 3.5.0)
 License: GPL (>= 2)
 Suggests: VGAM
-Imports: e1071, C50, rpart, randomForest, pROC, methods, relaimpo, rpart.plot, lattice, lmtest, car, robustbase, class, NeuralNetTools, naivebayes, sandwich, AER, boot
+Imports: e1071, C50, rpart, randomForest, pROC, methods, relaimpo, rpart.plot, lattice, lmtest, car, robustbase, class, NeuralNetTools, naivebayes, sandwich, AER, boot, pscl
 URL: https://andrisignorell.github.io/ModTools/,
             https://github.com/AndriSignorell/ModTools/
 BugReports: https://github.com/AndriSignorell/ModTools/issues

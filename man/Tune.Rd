@@ -1,15 +1,12 @@
 \name{Tune}
 \alias{Tune}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{Tune Classificators
-%%  ~~function to do ... ~~
 }
 \description{Some classifiers benefit more from adjusted parameters to a particular dataset than others. However, it is often not clear from the beginning how the parameters have to be determined.  What often only remains is a grid search when several parameters have to be found in combination. The present function uses a grid search approch for the decisive arguments (typically for a neural network, a random forest or a classification tree). However it's not restricted to these models, any model fulfilling weak interface standards could be provided.
 }
 \usage{
 Tune(x, ..., testset = NULL, keepmod = TRUE)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{the model to be tuned, best (but not necessarily) trained with \code{\link{FitMod}}.
 }

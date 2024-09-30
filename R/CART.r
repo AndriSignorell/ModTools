@@ -565,9 +565,10 @@ plot.rpart <- function (x = stop("no 'x' arg"), type = 2, extra = "auto",
 
   if(node.labels){
     oldpar <- par(xpd=TRUE)
+    on.exit(par(oldpar))
     BoxedText(x = b$boxes$x1, y=b$boxes$y2, labels = rownames(x$frame),
               border=NA, txt.col = "steelblue", font=2, col=SetAlpha("white", 0.7), cex=0.8)
-    par(oldpar)
+
   }
 
   invisible(b)
