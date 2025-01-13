@@ -1356,7 +1356,7 @@ RefLevel <- function(x){
   }
 
   # find factor predvals
-  fpred <- names(grep("factor", attr(x[["terms"]], "dataClasses"), value=TRUE))
+  fpred <- names(grep("factor|ordered", attr(x[["terms"]], "dataClasses"), value=TRUE))
   resp <- all.vars(formula(x))[1]
   fpred <- fpred[fpred != resp]
 
