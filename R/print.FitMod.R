@@ -90,9 +90,10 @@ print.FitMod.lm <- function(x, digits = 3, pdigits=3,
 
   }
 
-  cat("\nObservations:", n, "   ")
+
+  cat(gettextf("\nObs (NAs): %s (%s)", nobs(x), length(x$na.action)))
   if (!is.null(xx$fstatistic)) {
-    cat("R\u00B2/R\u00B2adj:", paste(formatC(c(xx$r.squared, xx$adj.r.squared), digits = digits), collapse="/"))
+    cat("\tR\u00B2/R\u00B2adj:", paste(formatC(c(xx$r.squared, xx$adj.r.squared), digits = digits), collapse="/"))
     cat("   ", "AIC:", AIC(x))
     cat("\n")
   }
