@@ -6,6 +6,9 @@ print.FitMod <- function(x, digits = 3, pdigits=3,
   if(identical(class(x)[-1], "lm")){
     print.FitMod.lm(x, digits, pdigits, conf.level, ...)
 
+  } else if(inherits(x, "multinom")){
+    print.FitMod.multinom(x, digits, pdigits, conf.level, ...)
+
   } else {
     # default
     class(x) <- class(x)[class(x) %nin% "FitMod"]

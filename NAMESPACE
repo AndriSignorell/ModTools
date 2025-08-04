@@ -36,7 +36,7 @@ importFrom("randomForest", "randomForest","importance", "tuneRF")
 importFrom("DescTools","Unwhich", "Sort","DoCall","Pal","OddsRatio",
            "Format","SetAlpha","Desc", "DescToolsOptions", "Fmt","IsDichotomous",
            "SetNames", "Mode", "BoxedText","Append", "ColToOpaque", "Sample",
-           "Conf","Cstat","BrierScore","PseudoR2","%nin%","Ndec")
+           "Conf","Cstat","BrierScore","PseudoR2","%nin%","Ndec", "Fm", "StrAlign")
 importFrom("C50","C5.0","C5imp")
 importFrom("e1071","svm")
 importFrom("rpart","rpart","path.rpart","printcp","plotcp")
@@ -97,6 +97,7 @@ S3method(VarImp, lm)
 
 S3method(Conf, polr)
 S3method(OddsRatio, polr)
+S3method(OddsRatio, multinom)
 
 
 

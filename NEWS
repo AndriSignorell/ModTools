@@ -1,5 +1,12 @@
 
 
+ModTools 0.9.14 (2025-01-15)
+-----------------------------
+
+UPDATES:
+  * Better print routine for FitMod objects.
+
+
 
 ModTools 0.9.13 (2024-09-25)
 -----------------------------
