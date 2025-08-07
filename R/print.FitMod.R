@@ -6,6 +6,9 @@ print.FitMod <- function(x, digits = 3, pdigits=3,
   if(identical(class(x)[-1], "lm")){
     print.FitMod.lm(x, digits, pdigits, conf.level, ...)
 
+  } else   if(inherits(x, "glm")){
+    print.FitMod.lm(x, digits, pdigits, conf.level, ...)
+
   } else if(inherits(x, "multinom")){
     print.FitMod.multinom(x, digits, pdigits, conf.level, ...)
 
@@ -18,6 +21,7 @@ print.FitMod <- function(x, digits = 3, pdigits=3,
 }
 
 
+
 print.FitMod.lm <- function(x, digits = 3, pdigits=3,
                             conf.level = 0.95, ...) {
 
@@ -25,12 +29,17 @@ print.FitMod.lm <- function(x, digits = 3, pdigits=3,
   ci <- confint(x, level=conf.level)
   ref <- RefLevel(x)
 
+  isGLM <- inherits(x, "glm")
+
   # anova_p <- drop1(x, test="F",
   #                  scope= formula(gettextf("~ %s",
   #                                          paste(names(ref),
   #                                                collapse="+"))))[names(ref), "Pr(>F)"]
 
-  anova_p <- drop1(x, test="F")[names(ref), "Pr(>F)"]
+  if(isGLM)
+    anova_p <- drop1(x, test="Chisq")[names(ref), "Pr(>Chi)"]
+  else
+    anova_p <- drop1(x, test="F")[names(ref), "Pr(>F)"]
 
 
   xx <- summary(x)
@@ -97,11 +106,13 @@ print.FitMod.lm <- function(x, digits = 3, pdigits=3,
   cat(gettextf("\nObs (NAs): %s (%s)", nobs(x), length(x$na.action)))
   if (!is.null(xx$fstatistic)) {
     cat("\tR\u00B2/R\u00B2adj:", paste(formatC(c(xx$r.squared, xx$adj.r.squared), digits = digits), collapse="/"))
-    cat("   ", "AIC:", AIC(x))
-    cat("\n")
+  } else if(inherits(x, "glm")){
+    cat("\tPseudo R\u00B2 (McFadden):", Fm(PseudoR2(x)["McFadden"], digits=3))
   }
 
-  cat("\n")
+  cat("   ", "AIC:", AIC(x))
+  cat("\n\n")
+
   invisible(xx)
 
 }
